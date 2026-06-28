@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PYTHONPATH=src timeout 8 python -m uvicorn main:app --host 127.0.0.1 --port 8005)",
+      "Bash(curl -s http://127.0.0.1:8005/api/v1/health)",
+      "Bash(PYTHONPATH=src timeout 8 python -m uvicorn main:app --host 127.0.0.1 --port 8006)",
+      "Bash(curl -s http://127.0.0.1:8006/api/v1/health)",
+      "Bash(curl -s http://127.0.0.1:8006/api/v1/version)",
+      "Bash(uvicorn --version)",
+      "Bash(pip list *)",
+      "Bash(findstr -i \"fastapi uvicorn\")",
+      "Bash(pip install *)",
+      "Bash(python -m src.main)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload)",
+      "Bash(timeout 5 /nobreak)"
+    ]
+  }
+}

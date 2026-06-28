@@ -1,0 +1,154 @@
+# ====================================
+# 应用配置
+# ====================================
+
+app:
+  name: "x-jingwei"
+  version: "0.1.0"
+  description: "X-JingWei 经纬 - Production Grade LLM Application Development Platform"
+  environment: "development"  # development, testing, production
+  debug: true
+  timezone: "Asia/Shanghai"
+  locale: "zh_CN"
+
+# ====================================
+# 服务器配置
+# ====================================
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1
+  reload: true
+
+# ====================================
+# 日志配置
+# ====================================
+
+logging:
+  level: "INFO"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
+  file_path: "logs/x-jingwei_{time:YYYY-MM-DD_HH-mm-ss}.log"
+  rotation: "1 day"
+  retention: "7 days"
+  compression: "zip"
+  console_output: true
+
+# ====================================
+# CORS配置
+# ====================================
+
+cors:
+  enabled: true
+  allow_origins: "*"
+  allow_credentials: true
+  allow_methods: ["*"]
+  allow_headers: ["*"]
+
+# ====================================
+# 限流配置
+# ====================================
+
+rate_limit:
+  enabled: true
+  requests_per_minute: 60
+  requests_per_hour: 1000
+
+# ====================================
+# 数据库配置
+# ====================================
+
+database:
+  enabled: true
+  url: "mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+  url_async: "mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+  echo: false
+
+# ====================================
+# Redis配置
+# ====================================
+
+redis:
+  enabled: false
+  url: "redis://localhost:6379/0"
+  pool_size: 10
+  max_connections: 50
+  decode_responses: true
+  socket_timeout: 5
+
+# ====================================
+# LLM配置
+# ====================================
+
+llm:
+  default_provider: "deepseek"
+  temperature: 0.0
+  max_tokens: 2000
+  timeout: 60
+
+  providers:
+    deepseek:
+      api_key: "${DEEPSEEK_API_KEY}"
+      api_base: "https://api.deepseek.com/v1"
+      model_name: "deepseek-chat"
+
+    doubao:
+      api_key: "${DOUBAO_API_KEY}"
+      api_base: "https://ark.cn-beijing.volces.com/api/v3"
+      model_name: "doubao-pro"
+
+    aliyun:
+      api_key: "${ALIYUN_API_KEY}"
+      api_base: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+      model_name: "qwen-plus"
+
+# ====================================
+# 向量数据库配置
+# ====================================
+
+vector_store:
+  enabled: false
+  type: "chromadb"  # chromadb, milvus, qdrant
+  persist_directory: "./data/vector_store"
+  collection_name: "x-jingwei"
+
+  chromadb:
+    host: "localhost"
+    port: 8001
+
+# ====================================
+# 文档处理配置
+# ====================================
+
+document:
+  max_file_size: 10485760  # 10MB
+  supported_formats: [".txt", ".md", ".pdf", ".docx", ".doc"]
+  chunk_size: 500
+  chunk_overlap: 50
+
+# ====================================
+# 安全配置
+# ====================================
+
+security:
+  secret_key: "${SECRET_KEY:your-secret-key-here}"
+  algorithm: "HS256"
+  access_token_expire_minutes: 30
+  refresh_token_expire_days: 7
+
+# ====================================
+# API文档配置
+# ====================================
+
+api_docs:
+  enabled: true
+  title: "X-JingWei 经纬 API"
+  description: "JingWei Learning and Training Project API Documentation"
+  version: "0.1.0"
+  docs_url: "/docs"
+  redoc_url: "/redoc"
+  openapi_url: "/openapi.json"

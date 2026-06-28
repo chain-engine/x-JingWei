@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  x-jingwei:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: x-jingwei
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+      - ./data:/app/data
+    environment:
+      - APP_ENVIRONMENT=production
+      - APP_DEBUG=false
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - x-jingwei-network
+
+  # Redis服务（可选）
+  redis:
+    image: redis:7-alpine
+    container_name: x-jingwei-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - x-jingwei-network
+    profiles:
+      - with-redis
+
+  # PostgreSQL服务（可选）
+  postgres:
+    image: postgres:15-alpine
+    container_name: x-jingwei-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=x-jingwei
+      - POSTGRES_PASSWORD=x-jingwei-password
+      - POSTGRES_DB=x-jingwei
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - x-jingwei-network
+    profiles:
+      - with-postgres
+
+volumes:
+  redis-data:
+  postgres-data:
+
+networks:
+  x-jingwei-network:
+    driver: bridge
