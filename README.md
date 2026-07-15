@@ -210,9 +210,10 @@ x-jingwei/
 │   │   │   ├── exceptions.py # 全局异常定义
 │   │   │   ├── logger.py     # 日志配置
 │   │   │   └── response.py   # 统一响应封装
-│   │   ├── service/          # 业务逻辑层
-│   │   │   ├── llm_service.py    # LLM 业务服务
-│   │   │   └── document_service.py # 文档业务服务
+│   │   ├── services/         # 业务逻辑层
+│   │   │   ├── llm_service.py      # LLM 业务服务
+│   │   │   ├── document_service.py # 文档业务服务
+│   │   │   └── workflow_service.py # 工作流业务服务
 │   │   ├── repositories/     # 数据访问层
 │   │   │   ├── base.py           # Repository 基类
 │   │   │   ├── workflow_repository.py
@@ -228,7 +229,7 @@ x-jingwei/
 │   │   │   └── document.py       # 文档相关 Schema
 │   │   ├── infra/            # 基础设施层（第三方中间件封装）
 │   │   │   └── mysql/
-│   │   │       ├── models.py     # SQLAlchemy 基类定义
+│   │   │       ├── __init__.py   # 导出数据库连接管理模块
 │   │   │       └── mysql.py      # 数据库连接管理
 │   │   ├── workflow/         # 工作流引擎核心
 │   │   │   ├── engine.py     # DAG执行引擎(拓扑排序/并行/验证)
@@ -273,7 +274,7 @@ x-jingwei/
 | 层级 | 目录 | 职责 |
 |------|------|------|
 | **API 接口层** | `api/` | 仅负责参数接收、鉴权、转发调用、标准化返回，无业务逻辑 |
-| **业务逻辑层** | `service/` | 处理业务规则、事务编排、多仓储联动、复杂业务计算 |
+| **业务逻辑层** | `services/` | 处理业务规则、事务编排、多仓储联动、复杂业务计算 |
 | **数据访问层** | `repositories/` | 封装业务 CRUD、多表联查、分页、条件查询 |
 | **ORM 实体层** | `models/` | 纯数据表映射模型，仅定义字段、表关联关系 |
 | **基础设施层** | `infra/` | 封装第三方中间件、客户端、连接生命周期、底层资源管理 |

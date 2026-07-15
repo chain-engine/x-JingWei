@@ -12,7 +12,7 @@ from enum import Enum as PyEnum
 from sqlalchemy import Column, String, Text, Integer, DateTime, Enum, JSON, ForeignKey
 from sqlalchemy.orm import relationship
 
-from infra.mysql.models import Base
+from models.base import Base
 
 
 class WorkflowStatus(PyEnum):

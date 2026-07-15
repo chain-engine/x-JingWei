@@ -15,11 +15,13 @@ from infra.mysql import get_async_db
 from workflow import Workflow, Node, Edge, WorkflowExecutor, NodeRegistry
 from workflow import NodeType, WorkflowStatus, NodeStatus
 from schemas.workflow import WorkflowVariable, WorkflowMetadata, Position, NodeData
-from infra.mysql.models import (
+from models.workflow import (
     Workflow as DBWorkflow,
     WorkflowNode,
     WorkflowEdge,
-    WorkflowExecution as DBWorkflowExecution
+    WorkflowExecution as DBWorkflowExecution,
+    WorkflowStatus as DBWorkflowStatus,
+    NodeStatus as DBNodeStatus
 )
 from repositories.workflow_repository import (
     WorkflowRepository,
@@ -87,7 +89,7 @@ class WorkflowService:
                 id=workflow_id,
                 name=name,
                 description=description,
-                status=WorkflowStatus.DRAFT,
+                status=DBWorkflowStatus.DRAFT,
                 created_at=datetime.now(),
                 updated_at=datetime.now()
             )
@@ -159,7 +161,7 @@ class WorkflowService:
         description: Optional[str] = None,
         nodes: Optional[List[Dict[str, Any]]] = None,
         edges: Optional[List[Dict[str, Any]]] = None,
-        status: Optional[WorkflowStatus] = None
+        status: Optional[DBWorkflowStatus] = None
     ) -> Dict[str, Any]:
         """更新工作流
 
@@ -257,7 +259,7 @@ class WorkflowService:
             if not db_workflow:
                 raise BusinessError(f"工作流不存在: {workflow_id}", code=404)
 
-            if db_workflow.status == WorkflowStatus.DISABLED:
+            if db_workflow.status == DBWorkflowStatus.DISABLED:
                 raise BusinessError("工作流已禁用，无法执行")
 
             workflow = Workflow(

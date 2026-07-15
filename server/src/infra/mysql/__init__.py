@@ -6,15 +6,12 @@ MySQL 数据库模块
 """
 
 from .mysql import get_db, get_async_db, engine, async_engine, AsyncSessionLocal, init_db, async_init_db
-from .models import Base
-
 __all__ = [
     "get_db",
     "get_async_db",
     "engine",
     "async_engine",
     "AsyncSessionLocal",
-    "Base",
     "init_db",
     "async_init_db",
 ]

@@ -13,7 +13,7 @@ from typing import Any, Optional, Type
 from datetime import datetime
 
 from core.logger import logger
-from .models import Node, NodeType, NodeStatus, ExecutionResult
+from schemas.workflow import Node, NodeType, NodeStatus, ExecutionResult
 from .engine import ExecutionContext
 
 

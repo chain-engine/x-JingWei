@@ -12,7 +12,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.orm import Session, sessionmaker
 
 from core.config import settings
-from .models import Base
+from models.base import Base
 
 # 获取数据库 URL
 def _get_sync_url() -> str:

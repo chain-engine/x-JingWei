@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 import json
 
 from core.logger import logger
-from .models import (
+from schemas.workflow import (
     Workflow, Node, Edge, NodeType, NodeStatus, WorkflowStatus,
     ExecutionResult, WorkflowExecution
 )

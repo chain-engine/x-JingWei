@@ -424,7 +424,7 @@ def main() -> None:
     logger.info(f"Server: {settings.server.host}:{settings.server.port}")
 
     uvicorn.run(
-        app,
+        "src.main:app",
         host=settings.server.host,
         port=settings.server.port,
         workers=settings.server.workers,

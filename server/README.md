@@ -24,9 +24,10 @@ server/
 │   │   │   ├── health.py     # 健康检查
 │   │   │   └── version.py    # 版本信息
 │   │   └── router.py         # 路由管理
-│   ├── service/              # 业务逻辑层
-│   │   ├── llm_service.py    # LLM 业务服务
-│   │   └── document_service.py # 文档业务服务
+│   ├── services/             # 业务逻辑层
+│   │   ├── llm_service.py      # LLM 业务服务
+│   │   ├── document_service.py # 文档业务服务
+│   │   └── workflow_service.py # 工作流业务服务
 │   ├── repositories/         # 数据访问层
 │   │   ├── base.py           # Repository 基类
 │   │   ├── workflow_repository.py
