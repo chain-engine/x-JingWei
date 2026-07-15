@@ -9,7 +9,6 @@ from fastapi import APIRouter, Request
 from core.logger import logger
 from core.config import settings
 from core.response import success_response
-from core.schemas import HealthCheckResponse
 
 router = APIRouter()
 

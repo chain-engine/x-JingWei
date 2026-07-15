@@ -37,8 +37,8 @@ class LoggingConfig:
     """日志配置"""
     level: str = "INFO"
     format: str = "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
-    file_path: str = "logs/x-jingwei-{time:YYYYMMDDHHmmss}.log"
-    rotation: str = "10 MB"
+    file_path: str = "logs/x-jingwei-{time:YYYYMMDDHH}.log"
+    rotation: str = "1 hour"
     retention: str = "7 days"
     compression: str = "zip"
     console_output: bool = True
@@ -158,7 +158,7 @@ class Settings:
     """
 
     # 配置文件路径
-    CONFIG_FILE_PATH: Final[str] = 'config/config.yaml'
+    CONFIG_FILE_PATH: Final[str] = 'config.yaml'
     ENV_FILE_PATH: Final[str] = '.env'
 
     def __init__(self) -> None:
@@ -231,8 +231,8 @@ class Settings:
             'logging': {
                 'level': 'INFO',
                 'format': '{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}',
-                'file_path': 'logs/x-jingwei-{time:YYYYMMDDHHmmss}.log',
-                'rotation': '10 MB',
+                'file_path': 'logs/x-jingwei-{time:YYYYMMDDHH}.log',
+                'rotation': '1 hour',
                 'retention': '7 days',
                 'compression': 'zip',
                 'console_output': True

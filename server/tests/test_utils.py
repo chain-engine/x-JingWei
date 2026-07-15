@@ -5,7 +5,7 @@
 """
 
 import pytest
-from utils.helpers import (
+from src.utils.helpers import (
     generate_uuid,
     generate_short_uuid,
     hash_string,

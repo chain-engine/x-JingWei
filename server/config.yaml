@@ -6,7 +6,7 @@ app:
   name: "x-jingwei"
   version: "0.1.0"
   description: "X-JingWei 经纬 - Production Grade LLM Application Development Platform"
-  environment: "development"  # development, testing, production
+  environment: "development"
   debug: true
   timezone: "Asia/Shanghai"
   locale: "zh_CN"
@@ -28,8 +28,8 @@ server:
 logging:
   level: "INFO"
   format: "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
-  file_path: "logs/x-jingwei_{time:YYYY-MM-DD_HH-mm-ss}.log"
-  rotation: "1 day"
+  file_path: "logs/x-jingwei-{time:YYYYMMDDHH}.log"
+  rotation: "1 hour"
   retention: "7 days"
   compression: "zip"
   console_output: true
@@ -112,7 +112,7 @@ llm:
 
 vector_store:
   enabled: false
-  type: "chromadb"  # chromadb, milvus, qdrant
+  type: "chromadb"
   persist_directory: "./data/vector_store"
   collection_name: "x-jingwei"
 
@@ -125,7 +125,7 @@ vector_store:
 # ====================================
 
 document:
-  max_file_size: 10485760  # 10MB
+  max_file_size: 10485760
   supported_formats: [".txt", ".md", ".pdf", ".docx", ".doc"]
   chunk_size: 500
   chunk_overlap: 50

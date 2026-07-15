@@ -14,11 +14,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.logger import logger
 from core.response import success_response, error_response
 from core.exceptions import BusinessError, ValidationError
-from src.infra.mysql import get_async_db as get_db_session
+from infra.mysql import get_async_db as get_db_session
 from workflow import Workflow, Node, Edge, NodeType, WorkflowStatus, NodeStatus
 from workflow import WorkflowExecutor, NodeRegistry
-from workflow.models import WorkflowVariable, WorkflowMetadata, Position, NodeData
-from models.workflow import Workflow as DBWorkflow, WorkflowNode, WorkflowEdge, WorkflowExecution as DBWorkflowExecution
+from schemas.workflow import WorkflowVariable, WorkflowMetadata, Position, NodeData
+from infra.mysql.models import Workflow as DBWorkflow, WorkflowNode, WorkflowEdge, WorkflowExecution as DBWorkflowExecution
 from repositories.workflow_repository import (
     WorkflowRepository,
     WorkflowNodeRepository,

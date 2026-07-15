@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-文档数据模型
+文档 Schema
 """
 
 from typing import Optional
@@ -20,8 +20,7 @@ class DocumentMetadata(BaseModel):
     language: Optional[str] = Field(default="zh", description="语言")
     tags: list[str] = Field(default_factory=list, description="标签")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class DocumentChunk(BaseModel):
@@ -36,8 +35,7 @@ class DocumentChunk(BaseModel):
     start_position: int = Field(default=0, description="起始位置")
     end_position: int = Field(description="结束位置")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class Document(BaseEntity):
@@ -61,9 +59,9 @@ class Document(BaseEntity):
             raise ValueError("File size cannot be negative")
         return v
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "id": "doc-123",
                 "name": "example.txt",
@@ -76,9 +74,10 @@ class Document(BaseEntity):
                 "is_indexed": False,
                 "owner_id": "user-123",
                 "created_at": "2024-01-01T00:00:00",
-                "updated_at": "2024-01-01T00:00:00"
+                "updated_at": "2024-01-01T00:00:00",
             }
-        }
+        },
+    }
 
 
 class KnowledgeBase(BaseEntity):
@@ -92,9 +91,9 @@ class KnowledgeBase(BaseEntity):
     document_count: int = Field(default=0, description="文档数量")
     owner_id: str = Field(..., description="所有者ID")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "id": "kb-123",
                 "name": "Example Knowledge Base",
@@ -105,6 +104,7 @@ class KnowledgeBase(BaseEntity):
                 "document_count": 10,
                 "owner_id": "user-123",
                 "created_at": "2024-01-01T00:00:00",
-                "updated_at": "2024-01-01T00:00:00"
+                "updated_at": "2024-01-01T00:00:00",
             }
-        }
+        },
+    }

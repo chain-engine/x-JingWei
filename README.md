@@ -196,30 +196,54 @@ graph LR
 x-jingwei/
 ├── server/                    # 后端服务
 │   ├── src/
-│   │   ├── api/              # API 层
+│   │   ├── api/              # API 接口层（极薄，仅参数转发）
 │   │   │   └── v1/
 │   │   │       ├── workflow.py    # 工作流 CRUD & 执行 API
-│   │   │       └── ...
-│   │   ├── core/             # 核心框架
-│   │   │   ├── config.py     # 配置管理
-│   │   │   ├── container.py  # 依赖注入容器
+│   │   │       ├── llm.py         # LLM 聊天接口
+│   │   │       ├── document.py    # 文档处理接口
+│   │   │       ├── health.py      # 健康检查
+│   │   │       └── version.py     # 版本信息
+│   │   ├── core/             # 核心支撑层
+│   │   │   ├── config.py     # 全局配置中心
+│   │   │   ├── container.py  # IOC依赖注入容器
 │   │   │   ├── middleware.py # 中间件
-│   │   │   └── exceptions.py # 异常处理
-│   │   ├── infra/            # 基础设施层
-│   │   │   └── mysql/        # MySQL 数据库
-│   │   │       ├── __init__.py
-│   │   │       ├── mysql.py   # 数据库连接管理
-│   │   │       └── models.py  # 数据模型
-│   │   ├── models/           # 数据库模型
-│   │   │   └── workflow.py    # 工作流数据模型
+│   │   │   ├── exceptions.py # 全局异常定义
+│   │   │   ├── logger.py     # 日志配置
+│   │   │   └── response.py   # 统一响应封装
+│   │   ├── service/          # 业务逻辑层
+│   │   │   ├── llm_service.py    # LLM 业务服务
+│   │   │   └── document_service.py # 文档业务服务
 │   │   ├── repositories/     # 数据访问层
-│   │   │   └── workflow_repository.py
+│   │   │   ├── base.py           # Repository 基类
+│   │   │   ├── workflow_repository.py
+│   │   │   └── document_repository.py
+│   │   ├── models/           # ORM 实体层（数据表映射）
+│   │   │   ├── base.py           # SQLAlchemy 基类
+│   │   │   └── workflow.py       # 工作流实体模型
+│   │   ├── schemas/          # API Schema（Pydantic 请求/响应模型）
+│   │   │   ├── base.py           # Schema 基类
+│   │   │   ├── common.py         # 通用参数（分页等）
+│   │   │   ├── workflow.py       # 工作流相关 Schema
+│   │   │   ├── llm.py            # LLM 相关 Schema
+│   │   │   └── document.py       # 文档相关 Schema
+│   │   ├── infra/            # 基础设施层（第三方中间件封装）
+│   │   │   └── mysql/
+│   │   │       ├── models.py     # SQLAlchemy 基类定义
+│   │   │       └── mysql.py      # 数据库连接管理
 │   │   ├── workflow/         # 工作流引擎核心
-│   │   │   ├── models.py     # 数据模型(Node/Edge/Workflow)
 │   │   │   ├── engine.py     # DAG执行引擎(拓扑排序/并行/验证)
 │   │   │   ├── executor.py   # 工作流执行器
 │   │   │   └── nodes.py      # 10+ 种节点类型实现
-│   │   └── ...
+│   │   ├── utils/            # 无状态工具函数
+│   │   ├── constants/        # 全局常量定义
+│   │   └── main.py           # 应用入口
+│   ├── tests/                # 自动化测试（目录层级与 src 对应）
+│   ├── logs/                 # 运行时日志（按小时切割）
+│   ├── examples/             # 功能演示示例
+│   ├── scripts/              # 部署运维脚本
+│   ├── .env                  # 本地私有配置（禁止提交）
+│   ├── .env.example          # 无密钥配置模板（允许提交）
+│   ├── config.yaml           # YAML 配置文件
 │   ├── README.md             # 后端文档
 │   └── ...
 ├── web/                       # 前端应用
@@ -239,6 +263,43 @@ x-jingwei/
 │   └── ...
 └── README.md                 # 本文件
 ```
+
+## 架构分层
+
+后端采用标准五层业务架构 + 通用核心支撑层：
+
+### 标准五层业务架构（自上而下）
+
+| 层级 | 目录 | 职责 |
+|------|------|------|
+| **API 接口层** | `api/` | 仅负责参数接收、鉴权、转发调用、标准化返回，无业务逻辑 |
+| **业务逻辑层** | `service/` | 处理业务规则、事务编排、多仓储联动、复杂业务计算 |
+| **数据访问层** | `repositories/` | 封装业务 CRUD、多表联查、分页、条件查询 |
+| **ORM 实体层** | `models/` | 纯数据表映射模型，仅定义字段、表关联关系 |
+| **基础设施层** | `infra/` | 封装第三方中间件、客户端、连接生命周期、底层资源管理 |
+
+### 核心支撑层
+
+| 目录 | 职责 |
+|------|------|
+| `core/` | 框架级底层核心能力（配置、日志、异常、中间件、IOC容器、标准化响应） |
+| `schemas/` | 统一存放接口请求入参、响应返回 Pydantic 模型 |
+| `constants/` | 全局常量、业务模块常量、状态枚举定义 |
+| `utils/` | 无状态纯工具函数（加密、日期、文件、序列化、脱敏工具） |
+| `common/` | 业务通用公共组件（业务基类、通用装饰器、全局枚举、分页封装） |
+
+### 层间依赖规则
+
+```
+api → service → repository → models/infra
+          ↓
+       utils/schemas/constants/common/core
+```
+
+- 依赖流向不可逆、禁止跨层直接调用
+- `repository` 引用 `models` 实体
+- `repository` 依赖 `infra` 获取数据库/缓存会话资源
+- `models`、`infra` 不依赖上层任何业务层代码
 
 ## 快速开始
 

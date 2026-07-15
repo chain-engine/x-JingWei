@@ -4,7 +4,7 @@
 工具模块
 """
 
-from utils.helpers import (
+from src.utils.helpers import (
     generate_uuid,
     generate_short_uuid,
     hash_string,

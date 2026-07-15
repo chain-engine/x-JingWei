@@ -5,7 +5,7 @@
 提供完整的DAG执行引擎、节点管理和工作流编排能力
 """
 
-from .models import Node, Edge, Workflow, WorkflowStatus, NodeStatus, NodeType
+from schemas.workflow import Node, Edge, Workflow, WorkflowStatus, NodeStatus, NodeType
 from .engine import DAGEngine, ExecutionContext
 from .executor import WorkflowExecutor
 from .nodes import NodeRegistry, BaseNode

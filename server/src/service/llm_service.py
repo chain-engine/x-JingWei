@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 from core.logger import logger
 from core.config import settings
 from core.exceptions import ExternalServiceError, GenerationError
-from models.llm import ChatCompletionRequest, Message
+from schemas.llm import ChatCompletionRequest, Message
 
 
 class LLMProvider(ABC):
@@ -202,6 +202,24 @@ class LLMService:
                 pass
 
         logger.info(f"Initialized {len(self.providers)} LLM providers")
+
+    def list_providers(self) -> list[dict[str, Any]]:
+        """获取可用LLM提供商列表
+
+        Returns:
+            list[dict[str, Any]]: 提供商列表
+        """
+        providers = []
+        for provider_name, config in settings.llm.providers.items():
+            providers.append({
+                "name": provider_name,
+                "model_name": config.model_name,
+                "is_default": provider_name == settings.llm.default_provider,
+                "temperature_range": [0.0, 2.0],
+                "max_tokens": settings.llm.max_tokens,
+                "timeout": settings.llm.timeout
+            })
+        return providers
 
     def get_provider(self, provider_name: Optional[str] = None) -> LLMProvider:
         """获取提供商

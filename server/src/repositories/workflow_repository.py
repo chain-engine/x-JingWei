@@ -9,8 +9,8 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from models.workflow import Workflow, WorkflowNode, WorkflowEdge, WorkflowExecution, WorkflowStatus, NodeStatus
-from workflow.models import Node as WorkflowNodeModel, Edge as WorkflowEdgeModel
+from infra.mysql.models import Workflow, WorkflowNode, WorkflowEdge, WorkflowExecution, WorkflowStatus, NodeStatus
+from schemas.workflow import Node as WorkflowNodeModel, Edge as WorkflowEdgeModel
 
 
 class WorkflowRepository:

@@ -7,7 +7,7 @@
 from typing import Any, Optional
 
 from core.logger import logger
-from models.base import Repository
+from repositories.base import Repository
 
 
 class DocumentRepository(Repository):

@@ -69,7 +69,7 @@ async def lifespan(app: FastAPI):
 
     # 初始化数据库
     try:
-        from src.infra.mysql import async_init_db
+        from infra.mysql import async_init_db
         await async_init_db()
         logger.info("Database initialized successfully")
     except Exception as e:
@@ -80,8 +80,8 @@ async def lifespan(app: FastAPI):
     from core.container import container
 
     # 注册服务
-    from services.llm_service import LLMService
-    from services.document_service import DocumentService
+    from service.llm_service import LLMService
+    from service.document_service import DocumentService
 
     container.register(LLMService, LLMService)
     container.register(DocumentService, DocumentService)

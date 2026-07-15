@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-LLM相关数据模型
+LLM Schema
 """
 
 from typing import Optional, Any
@@ -18,14 +18,15 @@ class Message(BaseModel):
     content: str = Field(..., description="消息内容")
     name: Optional[str] = Field(default=None, description="发送者名称")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "role": "user",
-                "content": "Hello, how are you?"
+                "content": "Hello, how are you?",
             }
-        }
+        },
+    }
 
 
 class ChatCompletionRequest(BaseModel):
@@ -37,19 +38,18 @@ class ChatCompletionRequest(BaseModel):
     max_tokens: int = Field(default=2000, ge=1, description="最大token数")
     stream: bool = Field(default=False, description="是否流式输出")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
-                "messages": [
-                    {"role": "user", "content": "Hello, how are you?"}
-                ],
+                "messages": [{"role": "user", "content": "Hello, how are you?"}],
                 "model": "deepseek-chat",
                 "temperature": 0.7,
                 "max_tokens": 2000,
-                "stream": False
+                "stream": False,
             }
-        }
+        },
+    }
 
 
 class ChatCompletionChoice(BaseModel):
@@ -59,8 +59,7 @@ class ChatCompletionChoice(BaseModel):
     message: Message = Field(description="消息")
     finish_reason: Optional[str] = Field(default=None, description="结束原因")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class ChatCompletionUsage(BaseModel):
@@ -70,8 +69,7 @@ class ChatCompletionUsage(BaseModel):
     completion_tokens: int = Field(description="完成token数")
     total_tokens: int = Field(description="总token数")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class ChatCompletionResponse(BaseModel):
@@ -84,8 +82,7 @@ class ChatCompletionResponse(BaseModel):
     choices: list[ChatCompletionChoice] = Field(..., description="选项列表")
     usage: ChatCompletionUsage = Field(..., description="使用量")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class LLMConfig(BaseEntity):
@@ -100,9 +97,9 @@ class LLMConfig(BaseEntity):
     max_tokens: int = Field(default=2000, ge=1, description="最大token数")
     timeout: int = Field(default=60, ge=1, description="超时时间（秒）")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "id": "llm-123",
                 "provider": "deepseek",
@@ -112,9 +109,10 @@ class LLMConfig(BaseEntity):
                 "is_default": True,
                 "temperature": 0.7,
                 "max_tokens": 2000,
-                "timeout": 60
+                "timeout": 60,
             }
-        }
+        },
+    }
 
 
 class Conversation(BaseEntity):
@@ -126,18 +124,19 @@ class Conversation(BaseEntity):
     message_count: int = Field(default=0, description="消息数量")
     is_active: bool = Field(default=True, description="是否活跃")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "id": "conv-123",
                 "title": "Example Conversation",
                 "user_id": "user-123",
                 "llm_config_id": "llm-123",
                 "message_count": 10,
-                "is_active": True
+                "is_active": True,
             }
-        }
+        },
+    }
 
 
 class ConversationMessage(BaseEntity):
@@ -148,14 +147,15 @@ class ConversationMessage(BaseEntity):
     content: str = Field(..., description="消息内容")
     token_count: int = Field(default=0, description="token数量")
 
-    class Config:
-        from_attributes = True
-        json_schema_extra = {
+    model_config = {
+        "from_attributes": True,
+        "json_schema_extra": {
             "example": {
                 "id": "msg-123",
                 "conversation_id": "conv-123",
                 "role": "user",
                 "content": "Hello, how are you?",
-                "token_count": 10
+                "token_count": 10,
             }
-        }
+        },
+    }

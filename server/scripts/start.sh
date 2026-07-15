@@ -22,8 +22,8 @@ echo "Python version: $python_version"
 mkdir -p logs data
 
 # 检查配置文件
-if [ ! -f "config/config.yaml" ]; then
-    echo "Warning: config/config.yaml not found, using default configuration"
+if [ ! -f "config.yaml" ]; then
+    echo "Warning: config.yaml not found, using default configuration"
 fi
 
 # 设置环境变量

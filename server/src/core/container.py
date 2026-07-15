@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 依赖注入容器
-实现类似Go Wire风格的依赖注入能力，支持单例/多例模式管理
+实现依赖注入能力，支持单例/多例模式管理
 """
 
 from typing import Any, Callable, TypeVar, Generic, Type, get_type_hints
