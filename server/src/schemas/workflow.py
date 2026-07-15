@@ -206,3 +206,22 @@ class WorkflowExecution(BaseSchema):
     duration_ms: Optional[float] = Field(default=None, description="总耗时(ms)")
 
     model_config = ConfigDict(extra="allow")
+
+
+class CreateWorkflowRequest(BaseSchema):
+    name: str = Field(..., min_length=1, max_length=100, description="工作流名称")
+    description: Optional[str] = Field(default=None, description="工作流描述")
+    nodes: list[dict] = Field(default_factory=list, description="节点列表")
+    edges: list[dict] = Field(default_factory=list, description="边列表")
+
+
+class UpdateWorkflowRequest(BaseSchema):
+    name: Optional[str] = Field(default=None, min_length=1, max_length=100)
+    description: Optional[str] = Field(default=None)
+    nodes: Optional[list[dict]] = Field(default=None)
+    edges: Optional[list[dict]] = Field(default=None)
+    status: Optional[WorkflowStatus] = Field(default=None)
+
+
+class ExecuteWorkflowRequest(BaseSchema):
+    inputs: dict[str, Any] = Field(default_factory=dict, description="输入参数")

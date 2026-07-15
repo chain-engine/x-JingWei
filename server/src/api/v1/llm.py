@@ -12,7 +12,7 @@ from fastapi import APIRouter, Request
 from core.logger import logger
 from core.response import success_response
 from core.container import container
-from service.llm_service import LLMService
+from services.llm_service import LLMService
 from schemas.llm import Message
 
 router = APIRouter()

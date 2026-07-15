@@ -30,6 +30,9 @@ from .workflow import (
     Workflow,
     ExecutionResult,
     WorkflowExecution,
+    CreateWorkflowRequest,
+    UpdateWorkflowRequest,
+    ExecuteWorkflowRequest,
 )
 
 __all__ = [
@@ -62,4 +65,7 @@ __all__ = [
     "Workflow",
     "ExecutionResult",
     "WorkflowExecution",
+    "CreateWorkflowRequest",
+    "UpdateWorkflowRequest",
+    "ExecuteWorkflowRequest",
 ]

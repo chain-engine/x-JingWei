@@ -80,11 +80,13 @@ async def lifespan(app: FastAPI):
     from core.container import container
 
     # 注册服务
-    from service.llm_service import LLMService
-    from service.document_service import DocumentService
+    from services.llm_service import LLMService
+    from services.document_service import DocumentService
+    from services.workflow_service import WorkflowService
 
     container.register(LLMService, LLMService)
     container.register(DocumentService, DocumentService)
+    container.register(WorkflowService, WorkflowService)
 
     # 注册仓库
     from repositories.document_repository import DocumentRepository

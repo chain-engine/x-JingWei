@@ -12,7 +12,7 @@ from fastapi import APIRouter, Request, UploadFile, File, Form
 from core.logger import logger
 from core.response import success_response
 from core.container import container
-from service.document_service import DocumentService
+from services.document_service import DocumentService
 from constants.constants import (
     DEFAULT_PAGE,
     DEFAULT_PAGE_SIZE,
