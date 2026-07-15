@@ -51,7 +51,6 @@ from constants.constants import (
     CODE_SERVER_ERROR,
     HEADER_REQUEST_ID
 )
-from core.response import error_response
 from api import api_router
 
 
