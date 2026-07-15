@@ -11,7 +11,7 @@ from datetime import datetime
 
 from core.logger import logger
 from core.exceptions import BusinessError, ValidationError
-from infra.mysql import get_async_db
+from infras.mysql import get_async_db
 from workflow import Workflow, Node, Edge, WorkflowExecutor, NodeRegistry
 from workflow import NodeType, WorkflowStatus, NodeStatus
 from schemas.workflow import WorkflowVariable, WorkflowMetadata, Position, NodeData

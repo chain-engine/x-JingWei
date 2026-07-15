@@ -48,7 +48,7 @@ server/
 │   │   ├── exceptions.py     # 全局异常定义
 │   │   ├── logger.py         # 日志配置
 │   │   └── response.py       # 统一响应封装
-│   ├── infra/                # 基础设施层
+│   ├── infras/               # 基础设施层
 │   │   └── mysql/
 │   │       ├── __init__.py   # 导出数据库连接管理模块
 │   │       └── mysql.py      # 数据库连接管理
@@ -79,20 +79,20 @@ server/
 | **业务逻辑层** | `services/` | 处理业务规则、事务编排、多仓储联动、复杂业务计算 |
 | **数据访问层** | `repositories/` | 封装业务 CRUD、多表联查、分页、条件查询 |
 | **ORM 实体层** | `models/` | 纯数据表映射模型，仅定义字段、表关联关系 |
-| **基础设施层** | `infra/` | 封装第三方中间件、客户端、连接生命周期、底层资源管理 |
+| **基础设施层** | `infras/` | 封装第三方中间件、客户端、连接生命周期、底层资源管理 |
 
 ### 层间依赖规则
 
 ```
-api → service → repository → models/infra
+api → service → repository → models/infras
           ↓
        utils/schemas/constants/common/core
 ```
 
 - 依赖流向不可逆、禁止跨层直接调用
 - `repository` 引用 `models` 实体
-- `repository` 依赖 `infra` 获取数据库/缓存会话资源
-- `models`、`infra` 不依赖上层任何业务层代码
+- `repository` 依赖 `infras` 获取数据库/缓存会话资源
+- `models`、`infras` 不依赖上层任何业务层代码
 
 ## 工作流引擎架构
 

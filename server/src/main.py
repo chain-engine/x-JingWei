@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI):
 
     # 初始化数据库
     try:
-        from infra.mysql import async_init_db
+        from infras.mysql import async_init_db
         await async_init_db()
         logger.info("Database initialized successfully")
     except Exception as e:
