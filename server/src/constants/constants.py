@@ -10,7 +10,7 @@ from typing import Final
 
 # -- 应用信息 -----------------------------------------------------------
 APP_ID: str = "x-JingWei"
-APP_NAME: str = "汉匠（JingWei）"
+APP_NAME: str = "经纬（JingWei）"
 APP_DESCRIPTION: str = "一个基于 FastAPI 构建的生产级工作流后端服务"
 APP_VERSION: str = "0.1.0"
 
