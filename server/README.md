@@ -181,10 +181,10 @@ uv run x-JingWei --help
 
 ```bash
 # 本地开发（热重载）
-uv run uvicorn main:app --reload
+uv run python -m uvicorn src.main:app --reload
 
 # 生产环境
-uv run uvicorn main:app --host 0.0.0.0 --port 8000
+uv run python -m uvicorn src.main:app --host 0.0.0.0 --port 8000
 ```
 
 #### 方式三：Docker 容器部署
