@@ -1,8 +1,14 @@
-# Server - 工作流后端服务
+# 经纬（JingWei）Server
 
-## 概述
+![x-jingwei](https://img.shields.io/badge/x--jingwei-1.0.0-blue)
+![Python](https://img.shields.io/badge/Python-3.11+-green)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-red)
+![React](https://img.shields.io/badge/React-18+-blue)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
-基于 FastAPI 构建的生产级工作流后端服务，提供完整的 DAG 执行引擎、节点管理和工作流编排能力。
+## 项目介绍
+
+`经纬（JingWei）Server`是一个基于 FastAPI 构建的生产级工作流后端服务，提供完整的 DAG 执行引擎、节点管理和工作流编排能力。
 
 ## 技术栈
 
@@ -158,19 +164,46 @@ pip install -e .
 
 ### 启动服务
 
-```bash
-# 开发模式（热重载）
-uv run uvicorn src.main:app --reload --port 8000
+#### 方式一：CLI 启动（推荐）
 
-# 或直接运行
-uv run python src/main.py
+```bash
+# 本地开发（热重载）
+uv run x-JingWei --reload
+
+# 生产环境
+uv run x-JingWei --host 0.0.0.0 --port 8000
+
+# 查看帮助
+uv run x-JingWei --help
 ```
 
-### 访问 API
+#### 方式二：uvicorn 直接启动
 
-- API 文档: http://localhost:8000/docs
-- Redoc: http://localhost:8000/redoc
-- 健康检查: http://localhost:8000/api/v1/health
+```bash
+# 本地开发（热重载）
+uv run uvicorn main:app --reload
+
+# 生产环境
+uv run uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+#### 方式三：Docker 容器部署
+
+```bash
+# 构建并启动
+docker compose up -d --build
+
+# 查看日志
+docker compose logs -f
+
+# 停止
+docker compose down
+```
+
+服务启动后访问：
+- API 文档（Swagger）：http://localhost:8000/docs
+- API 文档（ReDoc）：http://localhost:8000/redoc
+- 健康检查：http://localhost:8000/api/v1/health
 
 ## API 接口
 
@@ -262,4 +295,4 @@ uv run pytest
 | **邮箱** | john.young@foxmail.com |
 | **Gitee** | https://gitee.com/yeyushilai |
 | **GitHub** | https://github.com/yeyushilai |
-| **项目地址** | https://gitee.com/chain-engine/x-jingwei |
+| **项目地址** | https://github.com/chain-engine/x-JingWei |

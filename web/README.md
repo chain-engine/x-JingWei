@@ -1,8 +1,8 @@
-# Web - 工作流可视化编辑器
+# 经纬（JingWei）Web
 
 ## 概述
 
-基于 React + React Flow 构建的可视化工作流编辑器，提供拖拽式节点编辑、连线配置和工作流执行管理功能。
+`经纬（JingWei）Web`是一个基于 React + React Flow 构建的生产级可视化工作流编辑器，提供拖拽式节点编辑、连线配置和工作流执行管理功能。
 
 ## 技术栈
 
@@ -149,8 +149,8 @@ server: {
 
 | 项目 | 信息 |
 |------|------|
-| **作者** | John Young |
+| **作者** | John Young（夜雨诗来） |
 | **邮箱** | john.young@foxmail.com |
 | **Gitee** | https://gitee.com/yeyushilai |
 | **GitHub** | https://github.com/yeyushilai |
-| **项目地址** | https://gitee.com/chain-engine/x-jingwei |
+| **项目地址** | https://github.com/chain-engine/x-JingWei |

@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "x-jingwei"
+name = "x-JingWei"
 version = "0.1.0"
 description = "JingWei Learning and Training Project - Production Grade LLM Application Development Platform"
 readme = "README.md"
@@ -81,21 +81,22 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://gitee.com/yeyushilai/x-jingwei"
-Repository = "https://gitee.com/yeyushilai/x-jingwei"
-Documentation = "https://gitee.com/yeyushilai/x-jingwei"
-Issues = "https://gitee.com/yeyushilai/x-jingwei/issues"
+Homepage = "https://github.com/chain-engine/x-JingWei"
+Repository = "https://github.com/chain-engine/x-JingWei"
+Documentation = "https://github.com/chain-engine/x-JingWei"
+Issues = "https://github.com/chain-engine/x-JingWei/issues"
 
 [project.scripts]
-x-jingwei = "src.main:main"
+x-JingWei = "main:main"
 
 [tool.setuptools]
-package-dir = {"" = "."}
+package-dir = {"" = "src"}
+py-modules = ["main"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["*"]
-exclude = ["tests*", "examples*", "docs*", "scripts*"]
+include = ["api*", "constants*", "core*", "infras*", "models*", "repositories*", "schemas*", "services*", "utils*", "workflow*"]
+exclude = ["__pycache__*", "x_JingWei.egg-info*"]
 
 [tool.black]
 line-length = 100

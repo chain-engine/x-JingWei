@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  x-jingwei:
+  x-JingWei:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: x-jingwei
+    container_name: x-JingWei
     ports:
       - "8000:8000"
     volumes:
@@ -24,37 +24,37 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - x-jingwei-network
+      - x-JingWei-network
 
   # Redis服务（可选）
   redis:
     image: redis:7-alpine
-    container_name: x-jingwei-redis
+    container_name: x-JingWei-redis
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
     restart: unless-stopped
     networks:
-      - x-jingwei-network
+      - x-JingWei-network
     profiles:
       - with-redis
 
   # PostgreSQL服务（可选）
   postgres:
     image: postgres:15-alpine
-    container_name: x-jingwei-postgres
+    container_name: x-JingWei-postgres
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=x-jingwei
-      - POSTGRES_PASSWORD=x-jingwei-password
-      - POSTGRES_DB=x-jingwei
+      - POSTGRES_USER=x-JingWei
+      - POSTGRES_PASSWORD=x-JingWei-password
+      - POSTGRES_DB=x-JingWei
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
-      - x-jingwei-network
+      - x-JingWei-network
     profiles:
       - with-postgres
 
@@ -63,5 +63,5 @@ volumes:
   postgres-data:
 
 networks:
-  x-jingwei-network:
+  x-JingWei-network:
     driver: bridge

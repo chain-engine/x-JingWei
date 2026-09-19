@@ -12,7 +12,7 @@
       "Bash(pip install *)",
       "Bash(python -m src.main)",
       "Bash(Start-Sleep -Seconds 5)",
-      "Bash(uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload)",
+      "Bash(uvicorn main:app --host 0.0.0.0 --port 8000 --reload)",
       "Bash(timeout 5 /nobreak)"
     ]
   }

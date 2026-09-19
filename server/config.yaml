@@ -3,9 +3,9 @@
 # ====================================
 
 app:
-  name: "x-jingwei"
+  name: "x-JingWei"
   version: "0.1.0"
-  description: "X-JingWei 经纬 - Production Grade LLM Application Development Platform"
+  description: "一个生产级的可视化工作流编排平台"
   environment: "development"
   debug: true
   timezone: "Asia/Shanghai"
@@ -28,7 +28,7 @@ server:
 logging:
   level: "INFO"
   format: "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
-  file_path: "logs/x-jingwei-{time:YYYYMMDDHH}.log"
+  file_path: "logs/x-JingWei-{time:YYYYMMDDHH}.log"
   rotation: "1 hour"
   retention: "7 days"
   compression: "zip"
@@ -114,7 +114,7 @@ vector_store:
   enabled: false
   type: "chromadb"
   persist_directory: "./data/vector_store"
-  collection_name: "x-jingwei"
+  collection_name: "x-JingWei"
 
   chromadb:
     host: "localhost"

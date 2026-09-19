@@ -33,7 +33,7 @@ class TestAPI:
             data = response.json()
             assert data["code"] == 0
             assert "data" in data
-            assert data["data"]["name"] == "x-jingwei"
+            assert data["data"]["name"] == "x-JingWei"
             assert data["data"]["version"]
 
     async def test_llm_providers(self) -> None:

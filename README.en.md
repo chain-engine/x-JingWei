@@ -1,23 +1,10 @@
-# 经纬（JingWei）
+# JingWei
 
-<div align="center">
-
-![x-jingwei](https://img.shields.io/badge/x--jingwei-0.1.0-blue)
-![Python](https://img.shields.io/badge/Python-3.11+-green)
-![FastAPI](https://img.shields.io/badge/FastAPI-Latest-red)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-**Production Grade LLM Application Development Platform**
-
-Production Grade Visual Workflow Orchestration Platform
-
-[Quick Start](#quick-start) · [Documentation](https://gitee.com/yeyushilai/x-jingwei) · [Examples](#examples) · [Contributing](#contributing)
-
-</div>
+[中文](README.md) | English
 
 ## Project Introduction
 
-X-JingWei (经纬) is a production-grade visual workflow orchestration platform built with FastAPI and React. It provides a standardized, modular, highly scalable, and maintainable infrastructure for building LLM-powered applications.
+`JingWei` is a production-grade visual workflow orchestration platform built with FastAPI and React. It provides a standardized, modular, highly scalable, and maintainable infrastructure for building LLM-powered applications.
 
 ## Core Features
 
@@ -33,7 +20,7 @@ X-JingWei (经纬) is a production-grade visual workflow orchestration platform 
 ## Project Structure
 
 ```
-x-jingwei/
+x-JingWei/
 ├── config/                 # Configuration files directory
 │   ├── config.yaml         # Main configuration file
 │   └── .env.example        # Environment variable example
@@ -172,8 +159,8 @@ sequenceDiagram
 ### Clone Project
 
 ```bash
-git clone https://gitee.com/yeyushilai/x-jingwei.git
-cd x-jingwei
+git clone https://github.com/chain-engine/x-JingWei.git
+cd x-JingWei
 ```
 
 ### Install Dependencies
@@ -206,39 +193,37 @@ uv pip install -e .
 
 ### Service Startup
 
-#### Local Development Mode (Hot Reload and Debugging)
-
-##### Windows
-
-```powershell
-# Start using script
-.\scripts\start.ps1 --reload
-
-# Or use uvicorn directly
-uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-##### Linux/macOS
+#### Local Development Mode (Hot Reload)
 
 ```bash
-# Start using script
-./scripts/start.sh --reload
+cd server
 
-# Or use uvicorn directly
-uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+# Install dependencies
+uv sync
+
+# Start with hot reload (recommended)
+uv run x-JingWei --reload
+
+# Production environment
+uv run x-JingWei --host 0.0.0.0 --port 8000
+
+# View help
+uv run x-JingWei --help
 ```
 
 #### Docker Deployment
 
 ```bash
-# Build image
-docker-compose build
+cd server
 
-# Start service
-docker-compose up -d
+# Build and start
+docker compose up -d --build
 
 # View logs
-docker-compose logs -f x-jingwei
+docker compose logs -f
+
+# Stop
+docker compose down
 ```
 
 ### Common Commands
@@ -353,7 +338,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-- **Author**: 夜雨诗来
+- **Author**: John Young（夜雨诗来）
 - **Email**: john.young@foxmail.com
 - **Gitee**: https://gitee.com/yeyushilai
 - **GitHub**: https://github.com/yeyushilai

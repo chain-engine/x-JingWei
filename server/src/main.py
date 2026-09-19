@@ -416,19 +416,77 @@ app = create_app()
 
 
 def main() -> None:
-    """主函数"""
+    """主函数
+
+    支持通过命令行参数覆盖配置文件中的默认值。
+    优先级：命令行参数 > 配置文件/环境变量
+    """
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        prog="x-JingWei",
+        description=f"{settings.app_name} v{settings.app_version} - 工作流后端服务",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""示例:
+  本地开发（热重载）:   uv run x-JingWei --reload
+  生产环境:           uv run x-JingWei --host 0.0.0.0 --port 8000
+  指定 worker 数:     uv run x-JingWei --workers 4
+"""
+    )
+    parser.add_argument(
+        "--host",
+        type=str,
+        default=settings.server.host,
+        help=f"绑定主机地址（默认: {settings.server.host}）"
+    )
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=settings.server.port,
+        help=f"监听端口（默认: {settings.server.port}）"
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=settings.server.workers,
+        help=f"工作进程数（默认: {settings.server.workers}）"
+    )
+    parser.add_argument(
+        "--reload",
+        action="store_true",
+        default=False,
+        help="启用热重载（开发模式）"
+    )
+    parser.add_argument(
+        "--log-level",
+        type=str,
+        choices=["debug", "info", "warning", "error", "critical"],
+        default=settings.logging.level.lower(),
+        help=f"日志级别（默认: {settings.logging.level.lower()}）"
+    )
+
+    args = parser.parse_args()
+
+    # 命令行参数覆盖配置（reload 需要特殊处理：CLI 显式传入 --reload 或配置文件中 debug 模式）
+    host = args.host
+    port = args.port
+    workers = args.workers
+    reload = args.reload or (settings.server.reload if settings.app_debug else False)
+    log_level = args.log_level
+
     logger.info(f"Starting {settings.app_name} v{settings.app_version}")
     logger.info(f"Environment: {settings.app_environment}")
     logger.info(f"Debug mode: {settings.app_debug}")
-    logger.info(f"Server: {settings.server.host}:{settings.server.port}")
+    logger.info(f"Server: {host}:{port}")
+    logger.info(f"Workers: {workers}, Reload: {reload}, Log level: {log_level}")
 
     uvicorn.run(
-        "src.main:app",
-        host=settings.server.host,
-        port=settings.server.port,
-        workers=settings.server.workers,
-        reload=settings.server.reload if settings.app_debug else False,
-        log_level=settings.logging.level.lower()
+        "main:app",
+        host=host,
+        port=port,
+        workers=workers,
+        reload=reload,
+        log_level=log_level
     )
 
 

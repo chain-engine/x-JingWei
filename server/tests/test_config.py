@@ -13,7 +13,7 @@ class TestSettings:
 
     def test_app_name(self) -> None:
         """测试应用名称"""
-        assert settings.app_name == "x-jingwei"
+        assert settings.app_name == "x-JingWei"
 
     def test_app_version(self) -> None:
         """测试应用版本"""

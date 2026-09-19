@@ -1,3 +1,3 @@
 """
-x-jingwei 经纬 项目根包
+x-JingWei 经纬 项目根包
 """

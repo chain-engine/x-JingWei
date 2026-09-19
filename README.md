@@ -1,6 +1,5 @@
 # 经纬（JingWei）
 
-<div align="center">
 
 ![x-jingwei](https://img.shields.io/badge/x--jingwei-1.0.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.11+-green)
@@ -8,15 +7,11 @@
 ![React](https://img.shields.io/badge/React-18+-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**一个生产级的可视化工作流编排平台**
-
-前端可视化编辑器 + 后端DAG执行引擎
-
-</div>
+[English](README.en.md) | 中文
 
 ## 项目简介
 
-JingWei（经纬）是一个生产级的可视化工作流编排平台，提供：
+`经纬（JingWei）`是一个生产级的可视化工作流编排平台，提供：
 
 - **可视化工作流编辑器**：基于 React Flow 的拖拽式节点编辑器
 - **DAG 执行引擎**：支持拓扑排序、并行执行的工作流引擎
@@ -193,7 +188,7 @@ graph LR
 ## 项目结构
 
 ```
-x-jingwei/
+x-JingWei/
 ├── server/                    # 后端服务
 │   ├── src/
 │   │   ├── api/              # API 接口层（极薄，仅参数转发）
@@ -335,8 +330,14 @@ cd server
 # 安装依赖
 uv sync
 
-# 启动服务（热重载）
-uv run uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+# 启动服务（热重载，推荐）
+uv run x-JingWei --reload
+
+# 生产环境
+uv run x-JingWei --host 0.0.0.0 --port 8000
+
+# 查看帮助
+uv run x-JingWei --help
 ```
 
 ### 2. 启动前端应用
@@ -532,29 +533,18 @@ erDiagram
 - **WorkflowEdge**：边表，存储节点之间的连接关系
 - **WorkflowExecution**：执行记录表，存储每次执行的详细信息
 
-## 开发计划
-
-- [x] 数据库持久化（MySQL + SQLAlchemy）
-- [ ] 用户认证和权限管理
-- [ ] 工作流版本控制
-- [ ] 执行历史记录
-- [ ] WebSocket 实时执行状态
-- [ ] 更多节点类型（数据库、缓存、消息队列等）
-- [ ] 工作流模板市场
 
 ## License
 
-MIT License
+本项目基于 [MIT License](LICENSE) 开源。
 
-
----
 
 ## 联系方式
 
 | 项目 | 信息 |
 |------|------|
-| **作者** | John Young |
+| **作者** | John Young（夜雨诗来） |
 | **邮箱** | john.young@foxmail.com |
 | **Gitee** | https://gitee.com/yeyushilai |
 | **GitHub** | https://github.com/yeyushilai |
-| **项目地址** | https://gitee.com/chain-engine/x-jingwei |
+| **项目地址** | https://github.com/chain-engine/x-JingWei |

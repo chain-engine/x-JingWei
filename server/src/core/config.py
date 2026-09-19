@@ -37,7 +37,7 @@ class LoggingConfig:
     """日志配置"""
     level: str = "INFO"
     format: str = "{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}"
-    file_path: str = "logs/x-jingwei-{time:YYYYMMDDHH}.log"
+    file_path: str = "logs/x-JingWei-{time:YYYYMMDDHH}.log"
     rotation: str = "1 hour"
     retention: str = "7 days"
     compression: str = "zip"
@@ -115,7 +115,7 @@ class VectorStoreConfig:
     enabled: bool = False
     type: str = "chromadb"
     persist_directory: str = "./data/vector_store"
-    collection_name: str = "x-jingwei"
+    collection_name: str = "x-JingWei"
     chromadb_host: str = "localhost"
     chromadb_port: int = 8001
 
@@ -214,7 +214,7 @@ class Settings:
         """
         return {
             'app': {
-                'name': 'x-jingwei',
+                'name': 'x-JingWei',
                 'version': '0.1.0',
                 'description': 'X-JingWei 经纬 - Production Grade LLM Application Development Platform',
                 'environment': 'development',
@@ -231,7 +231,7 @@ class Settings:
             'logging': {
                 'level': 'INFO',
                 'format': '{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {name}:{function}:{line} - {message}',
-                'file_path': 'logs/x-jingwei-{time:YYYYMMDDHH}.log',
+                'file_path': 'logs/x-JingWei-{time:YYYYMMDDHH}.log',
                 'rotation': '1 hour',
                 'retention': '7 days',
                 'compression': 'zip',
@@ -283,7 +283,7 @@ class Settings:
                 'enabled': False,
                 'type': 'chromadb',
                 'persist_directory': './data/vector_store',
-                'collection_name': 'x-jingwei',
+                'collection_name': 'x-JingWei',
                 'chromadb': {
                     'host': 'localhost',
                     'port': 8001
