@@ -15,7 +15,7 @@ from schemas.common import ApiResponse
 router = APIRouter()
 
 
-@router.get("/version", response_model=ApiResponse[dict[str, Any]])
+@router.get("/version", response_model=ApiResponse[dict[str, Any]], summary="获取版本信息")
 async def get_version(request: Request) -> ApiResponse[dict[str, Any]]:
     """获取版本信息接口
 

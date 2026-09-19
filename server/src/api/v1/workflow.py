@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 工作流API接口
-
-API接口层：极薄，只做参数转发，不写业务逻辑
 """
 
 from typing import Any, Optional
@@ -26,7 +24,7 @@ router = APIRouter()
 
 # ==================== 工作流CRUD接口 ====================
 
-@router.post("", response_model=ApiResponse[dict[str, Any]])
+@router.post("", response_model=ApiResponse[dict[str, Any]], summary="创建工作流")
 async def create_workflow(request: Request, body: CreateWorkflowRequest) -> ApiResponse[dict[str, Any]]:
     """创建工作流"""
     request_id = getattr(request.state, "request_id", None)
@@ -48,7 +46,7 @@ async def create_workflow(request: Request, body: CreateWorkflowRequest) -> ApiR
     )
 
 
-@router.get("", response_model=ApiResponse[dict[str, Any]])
+@router.get("", response_model=ApiResponse[dict[str, Any]], summary="获取工作流列表")
 async def list_workflows(
     request: Request,
     page: int = Query(1, ge=1, description="页码"),
@@ -70,7 +68,7 @@ async def list_workflows(
     )
 
 
-@router.get("/{workflow_id}", response_model=ApiResponse[dict[str, Any]])
+@router.get("/{workflow_id}", response_model=ApiResponse[dict[str, Any]], summary="获取工作流详情")
 async def get_workflow(request: Request, workflow_id: str) -> ApiResponse[dict[str, Any]]:
     """获取工作流详情"""
     request_id = getattr(request.state, "request_id", None)
@@ -87,7 +85,7 @@ async def get_workflow(request: Request, workflow_id: str) -> ApiResponse[dict[s
     )
 
 
-@router.put("/{workflow_id}", response_model=ApiResponse[dict[str, Any]])
+@router.put("/{workflow_id}", response_model=ApiResponse[dict[str, Any]], summary="更新工作流")
 async def update_workflow(
     request: Request,
     workflow_id: str,
@@ -115,7 +113,7 @@ async def update_workflow(
     )
 
 
-@router.delete("/{workflow_id}", response_model=ApiResponse[dict[str, Any]])
+@router.delete("/{workflow_id}", response_model=ApiResponse[dict[str, Any]], summary="删除工作流")
 async def delete_workflow(request: Request, workflow_id: str) -> ApiResponse[dict[str, Any]]:
     """删除工作流"""
     request_id = getattr(request.state, "request_id", None)
@@ -134,7 +132,7 @@ async def delete_workflow(request: Request, workflow_id: str) -> ApiResponse[dic
 
 # ==================== 工作流执行接口 ====================
 
-@router.post("/{workflow_id}/execute", response_model=ApiResponse[dict[str, Any]])
+@router.post("/{workflow_id}/execute", response_model=ApiResponse[dict[str, Any]], summary="执行工作流")
 async def execute_workflow(
     request: Request,
     workflow_id: str,
@@ -158,7 +156,7 @@ async def execute_workflow(
     )
 
 
-@router.post("/{workflow_id}/validate", response_model=ApiResponse[dict[str, Any]])
+@router.post("/{workflow_id}/validate", response_model=ApiResponse[dict[str, Any]], summary="验证工作流")
 async def validate_workflow(request: Request, workflow_id: str) -> ApiResponse[dict[str, Any]]:
     """验证工作流"""
     request_id = getattr(request.state, "request_id", None)
@@ -183,7 +181,7 @@ async def validate_workflow(request: Request, workflow_id: str) -> ApiResponse[d
         )
 
 
-@router.get("/{workflow_id}/execution-plan", response_model=ApiResponse[dict[str, Any]])
+@router.get("/{workflow_id}/execution-plan", response_model=ApiResponse[dict[str, Any]], summary="获取工作流执行计划")
 async def get_execution_plan(request: Request, workflow_id: str) -> ApiResponse[dict[str, Any]]:
     """获取工作流执行计划"""
     request_id = getattr(request.state, "request_id", None)
@@ -202,7 +200,7 @@ async def get_execution_plan(request: Request, workflow_id: str) -> ApiResponse[
 
 # ==================== 节点类型接口 ====================
 
-@router.get("/node-types/list", response_model=ApiResponse[list[dict[str, Any]]])
+@router.get("/node-types/list", response_model=ApiResponse[list[dict[str, Any]]], summary="获取所有节点类型")
 async def list_node_types(request: Request) -> ApiResponse[list[dict[str, Any]]]:
     """获取所有支持的节点类型"""
     request_id = getattr(request.state, "request_id", None)
@@ -219,7 +217,7 @@ async def list_node_types(request: Request) -> ApiResponse[list[dict[str, Any]]]
     )
 
 
-@router.get("/node-types/{node_type}", response_model=ApiResponse[dict[str, Any]])
+@router.get("/node-types/{node_type}", response_model=ApiResponse[dict[str, Any]], summary="获取节点类型详情")
 async def get_node_type(request: Request, node_type: str) -> ApiResponse[dict[str, Any]]:
     """获取节点类型详情"""
     request_id = getattr(request.state, "request_id", None)
@@ -238,7 +236,7 @@ async def get_node_type(request: Request, node_type: str) -> ApiResponse[dict[st
 
 # ==================== 执行记录接口 ====================
 
-@router.get("/executions/list", response_model=ApiResponse[dict[str, Any]])
+@router.get("/executions/list", response_model=ApiResponse[dict[str, Any]], summary="获取执行记录列表")
 async def list_executions(
     request: Request,
     workflow_id: Optional[str] = Query(None, description="工作流ID筛选"),
@@ -262,7 +260,7 @@ async def list_executions(
     )
 
 
-@router.get("/executions/{execution_id}", response_model=ApiResponse[dict[str, Any]])
+@router.get("/executions/{execution_id}", response_model=ApiResponse[dict[str, Any]], summary="获取执行记录详情")
 async def get_execution(request: Request, execution_id: str) -> ApiResponse[dict[str, Any]]:
     """获取执行记录详情"""
     request_id = getattr(request.state, "request_id", None)

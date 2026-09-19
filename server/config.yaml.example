@@ -141,14 +141,40 @@ security:
   refresh_token_expire_days: 7
 
 # ====================================
-# API文档配置
+# 结构化输出配置
 # ====================================
 
-api_docs:
-  enabled: true
-  title: "X-JingWei 经纬 API"
-  description: "JingWei Learning and Training Project API Documentation"
-  version: "0.1.0"
-  docs_url: "/docs"
-  redoc_url: "/redoc"
-  openapi_url: "/openapi.json"
+structured: false
+
+# ====================================
+# 外部服务 API 配置
+# ====================================
+
+# 高德地图 API（天气查询）
+# amap_api_key: "your-amap-api-key"
+
+# ====================================
+# LangSmith 配置
+# ====================================
+
+# langsmith:
+#   api_key: "lsv2_pt_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_xxxxxxxxxxxxx"
+#   api_base: "https://api.langsmith.com/v1"
+
+# ====================================
+# MCP 服务器配置
+# ====================================
+
+# mcp:
+#   enabled: false
+#   weather_base_url: "http://localhost:8000"
+#   weather_path: "/mcp"
+#   weather_mode: "http"
+
+# ====================================
+# 文本转 SQL 配置
+# ====================================
+
+# text_to_sql:
+#   max_rows: 100
+#   query_timeout: 30

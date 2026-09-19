@@ -311,15 +311,15 @@ CREATE DATABASE jingwei CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 ```bash
 # 环境变量
-export DATABASE_URL="mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
-export ASYNC_DATABASE_URL="mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+export MYSQL_URL="mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+export MYSQL_ASYNC_URL="mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
 ```
 
 或创建 `.env` 文件在 `server/src/config/` 目录：
 
 ```env
-DATABASE_URL=mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
-ASYNC_DATABASE_URL=mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
+MYSQL_URL=mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
+MYSQL_ASYNC_URL=mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
 ```
 
 ### 1. 启动后端服务

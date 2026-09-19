@@ -138,17 +138,6 @@ class SecurityConfig:
     refresh_token_expire_days: int = 7
 
 
-@dataclass
-class ApiDocsConfig:
-    """API文档配置"""
-    enabled: bool = True
-    title: str = "经纬 API"
-    description: str = "JingWei Learning and Training Project API Documentation"
-    version: str = "0.1.0"
-    docs_url: str = "/docs"
-    redoc_url: str = "/redoc"
-    openapi_url: str = "/openapi.json"
-
 
 class Settings:
     """应用配置类
@@ -300,15 +289,6 @@ class Settings:
                 'algorithm': 'HS256',
                 'access_token_expire_minutes': 30,
                 'refresh_token_expire_days': 7
-            },
-            'api_docs': {
-                'enabled': True,
-                'title': 'X-JingWei 经纬 API',
-                'description': 'X-JingWei 经纬 API Documentation',
-                'version': '0.1.0',
-                'docs_url': '/docs',
-                'redoc_url': '/redoc',
-                'openapi_url': '/openapi.json'
             }
         }
 
@@ -357,6 +337,8 @@ class Settings:
             config['app']['environment'] = os.environ.get('APP_ENVIRONMENT')
         if os.environ.get('APP_DEBUG'):
             config['app']['debug'] = os.environ.get('APP_DEBUG').lower() == 'true'
+        if os.environ.get('APP_DESCRIPTION'):
+            config['app']['description'] = os.environ.get('APP_DESCRIPTION')
 
         # 服务器配置
         if os.environ.get('SERVER_HOST'):
@@ -381,6 +363,8 @@ class Settings:
             config['logging']['compression'] = os.environ.get('LOG_COMPRESSION')
         if os.environ.get('LOG_CONSOLE_OUTPUT'):
             config['logging']['console_output'] = os.environ.get('LOG_CONSOLE_OUTPUT').lower() == 'true'
+        if os.environ.get('LOG_FORMAT'):
+            config['logging']['format'] = os.environ.get('LOG_FORMAT')
 
         # CORS配置
         if os.environ.get('CORS_ENABLED'):
@@ -403,32 +387,32 @@ class Settings:
             config['rate_limit']['requests_per_hour'] = int(os.environ.get('RATE_LIMIT_REQUESTS_PER_HOUR'))
 
         # 数据库配置
-        if os.environ.get('DATABASE_ENABLED'):
-            config['database']['enabled'] = os.environ.get('DATABASE_ENABLED').lower() == 'true'
-        if os.environ.get('DATABASE_URL'):
-            config['database']['url'] = os.environ.get('DATABASE_URL')
-        if os.environ.get('ASYNC_DATABASE_URL'):
-            config['database']['url_async'] = os.environ.get('ASYNC_DATABASE_URL')
-        if os.environ.get('DB_HOST'):
-            config['database']['host'] = os.environ.get('DB_HOST')
-        if os.environ.get('DB_PORT'):
-            config['database']['port'] = int(os.environ.get('DB_PORT'))
-        if os.environ.get('DB_USER'):
-            config['database']['user'] = os.environ.get('DB_USER')
-        if os.environ.get('DB_PASSWORD'):
-            config['database']['password'] = os.environ.get('DB_PASSWORD')
-        if os.environ.get('DB_NAME'):
-            config['database']['database'] = os.environ.get('DB_NAME')
-        if os.environ.get('DATABASE_POOL_SIZE'):
-            config['database']['pool_size'] = int(os.environ.get('DATABASE_POOL_SIZE'))
-        if os.environ.get('DATABASE_MAX_OVERFLOW'):
-            config['database']['max_overflow'] = int(os.environ.get('DATABASE_MAX_OVERFLOW'))
-        if os.environ.get('DATABASE_POOL_TIMEOUT'):
-            config['database']['pool_timeout'] = int(os.environ.get('DATABASE_POOL_TIMEOUT'))
-        if os.environ.get('DATABASE_POOL_RECYCLE'):
-            config['database']['pool_recycle'] = int(os.environ.get('DATABASE_POOL_RECYCLE'))
-        if os.environ.get('DATABASE_ECHO'):
-            config['database']['echo'] = os.environ.get('DATABASE_ECHO').lower() == 'true'
+        if os.environ.get('MYSQL_ENABLED'):
+            config['database']['enabled'] = os.environ.get('MYSQL_ENABLED').lower() == 'true'
+        if os.environ.get('MYSQL_URL'):
+            config['database']['url'] = os.environ.get('MYSQL_URL')
+        if os.environ.get('MYSQL_ASYNC_URL'):
+            config['database']['url_async'] = os.environ.get('MYSQL_ASYNC_URL')
+        if os.environ.get('MYSQL_HOST'):
+            config['database']['host'] = os.environ.get('MYSQL_HOST')
+        if os.environ.get('MYSQL_PORT'):
+            config['database']['port'] = int(os.environ.get('MYSQL_PORT'))
+        if os.environ.get('MYSQL_USER'):
+            config['database']['user'] = os.environ.get('MYSQL_USER')
+        if os.environ.get('MYSQL_PASSWORD'):
+            config['database']['password'] = os.environ.get('MYSQL_PASSWORD')
+        if os.environ.get('MYSQL_DATABASE'):
+            config['database']['database'] = os.environ.get('MYSQL_DATABASE')
+        if os.environ.get('MYSQL_POOL_SIZE'):
+            config['database']['pool_size'] = int(os.environ.get('MYSQL_POOL_SIZE'))
+        if os.environ.get('MYSQL_MAX_OVERFLOW'):
+            config['database']['max_overflow'] = int(os.environ.get('MYSQL_MAX_OVERFLOW'))
+        if os.environ.get('MYSQL_POOL_TIMEOUT'):
+            config['database']['pool_timeout'] = int(os.environ.get('MYSQL_POOL_TIMEOUT'))
+        if os.environ.get('MYSQL_POOL_RECYCLE'):
+            config['database']['pool_recycle'] = int(os.environ.get('MYSQL_POOL_RECYCLE'))
+        if os.environ.get('MYSQL_ECHO'):
+            config['database']['echo'] = os.environ.get('MYSQL_ECHO').lower() == 'true'
 
         # Redis配置
         if os.environ.get('REDIS_ENABLED'):
@@ -503,6 +487,8 @@ class Settings:
             config['document']['chunk_size'] = int(os.environ.get('DOCUMENT_CHUNK_SIZE'))
         if os.environ.get('DOCUMENT_CHUNK_OVERLAP'):
             config['document']['chunk_overlap'] = int(os.environ.get('DOCUMENT_CHUNK_OVERLAP'))
+        if os.environ.get('DOCUMENT_SUPPORTED_FORMATS'):
+            config['document']['supported_formats'] = os.environ.get('DOCUMENT_SUPPORTED_FORMATS').split(',')
 
         # 安全配置
         if os.environ.get('SECRET_KEY'):
@@ -513,10 +499,6 @@ class Settings:
             config['security']['access_token_expire_minutes'] = int(os.environ.get('ACCESS_TOKEN_EXPIRE_MINUTES'))
         if os.environ.get('REFRESH_TOKEN_EXPIRE_DAYS'):
             config['security']['refresh_token_expire_days'] = int(os.environ.get('REFRESH_TOKEN_EXPIRE_DAYS'))
-
-        # API文档配置
-        if os.environ.get('API_DOCS_ENABLED'):
-            config['api_docs']['enabled'] = os.environ.get('API_DOCS_ENABLED').lower() == 'true'
 
     def _parse_config(self) -> None:
         """解析配置到具体配置对象"""
@@ -540,7 +522,6 @@ class Settings:
         self.vector_store.chromadb_port = self._config['vector_store'].get('chromadb', {}).get('port', 8001)
         self.document = DocumentConfig(**self._config['document'])
         self.security = SecurityConfig(**self._config['security'])
-        self.api_docs = ApiDocsConfig(**self._config['api_docs'])
 
         self.llm = LLMConfig(
             default_provider=self._config['llm']['default_provider'],

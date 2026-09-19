@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-LLM相关API
-
-API接口层：极薄，只做参数转发，不写业务逻辑
+LLM相关API接口层
 """
 
 from typing import Any
@@ -19,7 +17,7 @@ from schemas.llm import Message
 router = APIRouter()
 
 
-@router.post("/chat", response_model=ApiResponse[dict[str, Any]])
+@router.post("/chat", response_model=ApiResponse[dict[str, Any]], summary="LLM聊天完成")
 async def chat_completion(request: Request) -> ApiResponse[dict[str, Any]]:
     """LLM聊天完成接口
 
@@ -52,7 +50,7 @@ async def chat_completion(request: Request) -> ApiResponse[dict[str, Any]]:
     )
 
 
-@router.get("/providers", response_model=ApiResponse[dict[str, Any]])
+@router.get("/providers", response_model=ApiResponse[dict[str, Any]], summary="获取可用LLM提供商列表")
 async def list_providers(request: Request) -> ApiResponse[dict[str, Any]]:
     """获取可用LLM提供商列表
 

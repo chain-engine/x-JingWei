@@ -12,6 +12,7 @@ from slowapi.errors import RateLimitExceeded
 import uvicorn
 
 from core.logger import logger
+from constants.constants import APP_ID, APP_NAME, APP_VERSION, APP_DESCRIPTION
 from core.config import settings
 from core.middleware import setup_middleware
 from core.exceptions import (
@@ -105,12 +106,12 @@ def create_app() -> FastAPI:
         FastAPI: 应用实例
     """
     app = FastAPI(
-        title=settings.api_docs.title,
-        description=settings.api_docs.description,
-        version=settings.api_docs.version,
-        docs_url=settings.api_docs.docs_url if settings.api_docs.enabled else None,
-        redoc_url=settings.api_docs.redoc_url if settings.api_docs.enabled else None,
-        openapi_url=settings.api_docs.openapi_url if settings.api_docs.enabled else None,
+        title=APP_NAME,
+        description=APP_DESCRIPTION,
+        version=APP_VERSION,
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_url="/openapi.json",
         lifespan=lifespan
     )
 

@@ -15,7 +15,7 @@ from schemas.common import ApiResponse
 router = APIRouter()
 
 
-@router.get("/health", response_model=ApiResponse[dict[str, Any]])
+@router.get("/health", response_model=ApiResponse[dict[str, Any]], summary="健康检查")
 async def health_check(request: Request) -> ApiResponse[dict[str, Any]]:
     """健康检查接口
 

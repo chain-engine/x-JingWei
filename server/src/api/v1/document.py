@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-文档处理API
-
-API接口层：极薄，只做参数转发，不写业务逻辑
+文档处理API接口层
 """
 
 from typing import Any, Optional
@@ -24,7 +22,7 @@ from constants.constants import (
 router = APIRouter()
 
 
-@router.post("/upload", response_model=ApiResponse[dict[str, Any]])
+@router.post("/upload", response_model=ApiResponse[dict[str, Any]], summary="上传文档")
 async def upload_document(
     request: Request,
     file: UploadFile = File(...),
@@ -63,7 +61,7 @@ async def upload_document(
     )
 
 
-@router.get("", response_model=ApiResponse[dict[str, Any]])
+@router.get("", response_model=ApiResponse[dict[str, Any]], summary="获取文档列表")
 async def list_documents(
     request: Request,
     page: int = DEFAULT_PAGE,
@@ -95,7 +93,7 @@ async def list_documents(
     )
 
 
-@router.get("/{document_id}", response_model=ApiResponse[dict[str, Any]])
+@router.get("/{document_id}", response_model=ApiResponse[dict[str, Any]], summary="获取文档详情")
 async def get_document(request: Request, document_id: str) -> ApiResponse[dict[str, Any]]:
     """获取文档详情接口
 
@@ -120,7 +118,7 @@ async def get_document(request: Request, document_id: str) -> ApiResponse[dict[s
     )
 
 
-@router.delete("/{document_id}", response_model=ApiResponse[dict[str, Any]])
+@router.delete("/{document_id}", response_model=ApiResponse[dict[str, Any]], summary="删除文档")
 async def delete_document(request: Request, document_id: str) -> ApiResponse[dict[str, Any]]:
     """删除文档接口
 
