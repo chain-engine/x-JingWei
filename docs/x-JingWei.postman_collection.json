@@ -1,0 +1,456 @@
+{
+  "info": {
+    "name": "经纬（JingWei）",
+    "description": "一个生产级的可视化工作流编排平台",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "健康检查",
+              "item": [
+                {
+                  "name": "健康检查",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/health",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "health"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "版本管理",
+              "item": [
+                {
+                  "name": "获取版本信息",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/version",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "version"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "大模型管理",
+              "item": [
+                {
+                  "name": "LLM聊天完成",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Hello, how are you?\"\n    }\n  ],\n  \"model\": \"deepseek-chat\",\n  \"temperature\": 0.7,\n  \"max_tokens\": 2000\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/llm/chat",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "llm", "chat"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取可用LLM提供商列表",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/llm/providers",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "llm", "providers"]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "文档管理",
+              "item": [
+                {
+                  "name": "上传文档",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "file",
+                          "type": "file",
+                          "src": []
+                        },
+                        {
+                          "key": "chunk_size",
+                          "value": "1000",
+                          "type": "text"
+                        },
+                        {
+                          "key": "chunk_overlap",
+                          "value": "200",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/documents/upload",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "documents", "upload"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取文档列表",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/documents?page=1&page_size=20",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "documents"],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "page_size",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取文档详情",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/documents/:document_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "documents", ":document_id"],
+                      "variable": [
+                        {
+                          "key": "document_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "删除文档",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/documents/:document_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "documents", ":document_id"],
+                      "variable": [
+                        {
+                          "key": "document_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "工作流管理",
+              "item": [
+                {
+                  "name": "创建工作流",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"示例工作流\",\n  \"description\": \"这是一个示例工作流\",\n  \"nodes\": [\n    {\n      \"id\": \"start_1\",\n      \"type\": \"start\",\n      \"position\": {\"x\": 100, \"y\": 100},\n      \"data\": {\"label\": \"开始\"}\n    },\n    {\n      \"id\": \"llm_1\",\n      \"type\": \"llm\",\n      \"position\": {\"x\": 300, \"y\": 100},\n      \"data\": {\n        \"label\": \"LLM节点\",\n        \"config\": {\n          \"prompt\": \"你好\",\n          \"model\": \"deepseek-chat\"\n        }\n      }\n    },\n    {\n      \"id\": \"end_1\",\n      \"type\": \"end\",\n      \"position\": {\"x\": 500, \"y\": 100},\n      \"data\": {\"label\": \"结束\"}\n    }\n  ],\n  \"edges\": [\n    {\n      \"id\": \"edge_1\",\n      \"source\": \"start_1\",\n      \"target\": \"llm_1\"\n    },\n    {\n      \"id\": \"edge_2\",\n      \"source\": \"llm_1\",\n      \"target\": \"end_1\"\n    }\n  ]\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取工作流列表",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows?page=1&page_size=20",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows"],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "page_size",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取工作流详情",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "更新工作流",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"更新后的工作流名称\",\n  \"description\": \"更新后的描述\",\n  \"nodes\": [],\n  \"edges\": [],\n  \"status\": \"active\"\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "删除工作流",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "执行工作流",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"inputs\": {\n    \"input1\": \"value1\",\n    \"input2\": \"value2\"\n  }\n}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id/execute",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id", "execute"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "验证工作流",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id/validate",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id", "validate"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取工作流执行计划",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/:workflow_id/execution-plan",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", ":workflow_id", "execution-plan"],
+                      "variable": [
+                        {
+                          "key": "workflow_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取所有节点类型",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/node-types/list",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", "node-types", "list"]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取节点类型详情",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/node-types/:node_type",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", "node-types", ":node_type"],
+                      "variable": [
+                        {
+                          "key": "node_type",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取执行记录列表",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/executions/list?page=1&page_size=20",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", "executions", "list"],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "key": "page_size",
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "获取执行记录详情",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/v1/workflows/executions/:execution_id",
+                      "host": ["{{base_url}}"],
+                      "path": ["api", "v1", "workflows", "executions", ":execution_id"],
+                      "variable": [
+                        {
+                          "key": "execution_id",
+                          "value": ""
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 # 经纬（JingWei）
 
-
 ![x-jingwei](https://img.shields.io/badge/x--jingwei-1.0.0-blue)
 ![Python](https://img.shields.io/badge/Python-3.11+-green)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Latest-red)
@@ -11,12 +10,349 @@
 
 ## 项目简介
 
-`经纬（JingWei）`是一个生产级的可视化工作流编排平台，提供：
+`经纬（JingWei）`是一个生产级的可视化工作流编排平台，专注于 LLM 应用开发与业务流程自动化。平台提供完整的 DAG 执行引擎、拖拽式节点编辑器和丰富的节点类型，支持从简单对话到复杂多步骤工作流的构建与执行。
 
-- **可视化工作流编辑器**：基于 React Flow 的拖拽式节点编辑器
-- **DAG 执行引擎**：支持拓扑排序、并行执行的工作流引擎
-- **多节点类型**：LLM、代码、条件、HTTP、文档处理等多种节点
-- **实时执行**：支持工作流的实时执行和调试
+**核心特征：**
+- **可视化编排**：基于 React Flow 的拖拽式画布编辑器，零代码构建工作流
+- **高性能引擎**：基于 Kahn 算法的 DAG 拓扑排序，支持并行执行与循环依赖检测
+- **生产级架构**：五层业务架构（API → Service → Repository → Model → Infrastructure）
+- **多节点支持**：LLM、代码、条件、HTTP、文档处理等 10+ 种节点类型
+- **实时调试**：支持工作流实时执行、状态监控与结果可视化
+
+**适配场景：**
+- LLM 应用开发与调试
+- 业务流程自动化与编排
+- 数据处理流水线构建
+- 多步骤任务协调与执行
+
+## 快速开始
+
+### 1. 环境要求
+
+#### Windows
+- Python 3.11+
+- Node.js 18+ (前端开发)
+- Git
+- MySQL 8.0+ (可选，用于数据持久化)
+- Docker Desktop (可选，用于容器部署)
+
+#### Linux
+- Python 3.11+
+- Node.js 18+ (前端开发)
+- Git
+- MySQL 8.0+ (可选，用于数据持久化)
+- Docker 与 Docker Compose (可选，用于容器部署)
+
+#### macOS
+- Python 3.11+ (推荐使用 Homebrew: `brew install python`)
+- Node.js 18+ (前端开发)
+- Git
+- MySQL 8.0+ (可选，用于数据持久化)
+- Docker Desktop for Mac (可选，用于容器部署)
+
+### 2. 项目代码克隆
+
+```bash
+# 克隆仓库
+git clone https://github.com/chain-engine/x-JingWei.git
+
+# 进入项目目录
+cd x-JingWei
+```
+
+### 3. 依赖同步安装
+
+#### 后端依赖 (推荐使用 uv)
+
+```bash
+# 进入后端目录
+cd server
+
+# 安装 uv (如果未安装)
+pip install uv
+
+# 同步依赖
+uv sync
+
+# 或使用 pip (不推荐)
+pip install -e .
+```
+
+#### 前端依赖
+
+```bash
+# 进入前端目录
+cd web
+
+# 安装依赖
+npm install
+# 或使用 yarn
+yarn install
+```
+
+### 4. 环境配置
+
+#### 数据库配置 (可选)
+
+创建 MySQL 数据库：
+```sql
+CREATE DATABASE jingwei CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+#### 配置文件创建
+
+在 `server/` 目录下创建 `.env` 文件：
+```bash
+# 复制示例配置
+cp config.yaml.example config.yaml
+# 或创建 .env 文件
+touch .env
+```
+
+#### 核心参数说明
+
+**数据库配置：**
+- `DATABASE_URL`: MySQL 连接字符串 (格式: `mysql+pymysql://user:password@host:port/database`)
+- `DATABASE_ASYNC_URL`: 异步 MySQL 连接字符串 (格式: `mysql+aiomysql://user:password@host:port/database`)
+
+**LLM 配置：**
+- `DEEPSEEK_API_KEY`: DeepSeek API 密钥
+- `DOUBAO_API_KEY`: 豆包 API 密钥
+- `LLM_DEFAULT_PROVIDER`: 默认 LLM 提供商 (deepseek/doubao)
+
+**服务器配置：**
+- `SERVER_HOST`: 服务器监听地址 (默认: 0.0.0.0)
+- `SERVER_PORT`: 服务器端口 (默认: 8000)
+- `SERVER_WORKERS`: 工作进程数 (默认: 1)
+
+**日志配置：**
+- `LOG_LEVEL`: 日志级别 (DEBUG/INFO/WARNING/ERROR)
+- `LOG_FILE_PATH`: 日志文件路径 (默认: `logs/x-JingWei-{time}.log`)
+
+### 5. 服务启动
+
+#### 方式一：本地开发热重载 (推荐)
+
+```bash
+# 启动后端服务
+cd server
+uv run x-JingWei --reload
+
+# 启动前端应用 (新终端)
+cd web
+npm run dev
+```
+
+访问地址：
+- 前端应用: http://localhost:3000
+- 后端 API: http://localhost:8000
+- API 文档: http://localhost:8000/docs
+
+#### 方式二：Docker 容器部署
+
+```bash
+# 构建并启动所有服务
+docker compose up -d --build
+
+# 查看日志
+docker compose logs -f
+
+# 停止服务
+docker compose down
+```
+
+访问地址：
+- 前端应用: http://localhost:3000
+- 后端 API: http://localhost:8000
+- API 文档: http://localhost:8000/docs
+
+#### 方式三：uvicorn 直接启动 (可选)
+
+```bash
+# 启动后端
+cd server
+uv run python -m uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+
+# 启动前端
+cd web
+npm run dev
+```
+
+### 6. 常用工程命令
+
+#### 单元测试
+```bash
+# 运行所有测试
+uv run pytest
+
+# 运行特定测试文件
+uv run pytest tests/test_api.py
+
+# 运行带覆盖率的测试
+uv run pytest --cov=src --cov-report=html
+```
+
+#### 代码格式化
+```bash
+# 使用 black 格式化
+uv run black src/ tests/
+
+# 使用 ruff 格式化
+uv run ruff format src/ tests/
+```
+
+#### 静态代码检查
+```bash
+# 使用 ruff 检查
+uv run ruff check src/ tests/
+
+# 使用 mypy 类型检查
+uv run mypy src/
+```
+
+#### 依赖漏洞扫描
+```bash
+# 使用 pip-audit 检查依赖漏洞
+uv run pip-audit
+
+# 或使用 safety
+uv run safety check
+```
+
+### 7. 使用方法示例
+
+#### 创建简单 LLM 对话工作流
+
+1. **访问前端应用**: 打开 http://localhost:3000
+2. **创建新工作流**: 点击 "新建工作流" 按钮
+3. **拖拽节点**: 从左侧面板拖拽 "开始"、"LLM"、"结束" 节点到画布
+4. **连接节点**: 将 "开始" 节点连接到 "LLM" 节点，再将 "LLM" 节点连接到 "结束" 节点
+5. **配置节点**: 点击 "LLM" 节点，配置 prompt 和模型参数
+6. **保存工作流**: 点击保存按钮
+7. **执行工作流**: 点击执行按钮，查看执行结果
+
+#### API 调用示例
+
+```python
+import requests
+
+# 创建工作流
+workflow_data = {
+    "name": "简单对话",
+    "description": "使用 LLM 进行对话",
+    "nodes": [
+        {"id": "start_1", "type": "start", "position": {"x": 100, "y": 200}, "data": {"label": "开始", "config": {}}},
+        {"id": "llm_1", "type": "llm", "position": {"x": 300, "y": 200}, "data": {"label": "LLM", "config": {"prompt": "{{input}}", "model": "deepseek-chat"}}},
+        {"id": "end_1", "type": "end", "position": {"x": 500, "y": 200}, "data": {"label": "结束", "config": {}}}
+    ],
+    "edges": [
+        {"id": "edge_1", "source": "start_1", "target": "llm_1"},
+        {"id": "edge_2", "source": "llm_1", "target": "end_1"}
+    ]
+}
+
+response = requests.post("http://localhost:8000/api/v1/workflows", json=workflow_data)
+workflow_id = response.json()["data"]["id"]
+
+# 执行工作流
+execution_data = {"inputs": {"input": "你好，请介绍一下自己"}}
+response = requests.post(f"http://localhost:8000/api/v1/workflows/{workflow_id}/execute", json=execution_data)
+print(response.json())
+```
+
+## 项目结构
+
+```
+x-JingWei/
+├── server/                    # 后端服务
+│   ├── src/                  # 核心业务代码
+│   │   ├── api/              # API 接口层（极薄，仅参数转发）
+│   │   │   └── v1/
+│   │   │       ├── workflow.py    # 工作流 CRUD & 执行 API
+│   │   │       ├── llm.py         # LLM 聊天接口
+│   │   │       ├── document.py    # 文档处理接口
+│   │   │       ├── health.py      # 健康检查
+│   │   │       └── version.py     # 版本信息
+│   │   ├── core/             # 核心支撑层
+│   │   │   ├── config.py     # 全局配置中心
+│   │   │   ├── container.py  # IOC依赖注入容器
+│   │   │   ├── middleware.py # 中间件
+│   │   │   ├── exceptions.py # 全局异常定义
+│   │   │   ├── logger.py     # 日志配置
+│   │   │   └── response.py   # 统一响应封装
+│   │   ├── services/         # 业务逻辑层
+│   │   │   ├── llm_service.py      # LLM 业务服务
+│   │   │   ├── document_service.py # 文档业务服务
+│   │   │   └── workflow_service.py # 工作流业务服务
+│   │   ├── repositories/     # 数据访问层
+│   │   │   ├── base.py           # Repository 基类
+│   │   │   ├── workflow_repository.py
+│   │   │   └── document_repository.py
+│   │   ├── models/           # ORM 实体层（数据表映射）
+│   │   │   ├── base.py           # SQLAlchemy 基类
+│   │   │   └── workflow.py       # 工作流实体模型
+│   │   ├── schemas/          # API Schema（Pydantic 请求/响应模型）
+│   │   │   ├── base.py           # Schema 基类
+│   │   │   ├── common.py         # 通用参数（分页等）
+│   │   │   ├── workflow.py       # 工作流相关 Schema
+│   │   │   ├── llm.py            # LLM 相关 Schema
+│   │   │   └── document.py       # 文档相关 Schema
+│   │   ├── infras/          # 基础设施层（第三方中间件封装）
+│   │   │   └── mysql/
+│   │   │       ├── __init__.py   # 导出数据库连接管理模块
+│   │   │       └── mysql.py      # 数据库连接管理
+│   │   ├── workflow/         # 工作流引擎核心
+│   │   │   ├── engine.py     # DAG执行引擎(拓扑排序/并行/验证)
+│   │   │   ├── executor.py   # 工作流执行器
+│   │   │   └── nodes.py      # 10+ 种节点类型实现
+│   │   ├── utils/            # 无状态工具函数
+│   │   ├── constants/        # 全局常量定义
+│   │   └── main.py           # 应用入口
+│   ├── tests/                # 自动化测试（目录层级与 src 对应）
+│   ├── logs/                 # 运行时日志（按小时切割）
+│   ├── examples/             # 功能演示示例
+│   ├── scripts/              # 部署运维脚本
+│   ├── .env                  # 本地私有配置（禁止提交）
+│   ├── .env.example          # 无密钥配置模板（允许提交）
+│   ├── config.yaml           # YAML 配置文件
+│   ├── pyproject.toml        # 项目配置
+│   ├── README.md             # 后端文档
+│   └── ...
+├── web/                       # 前端应用
+│   ├── src/
+│   │   ├── components/       # 组件
+│   │   │   ├── WorkflowCanvas.tsx   # 画布组件(React Flow)
+│   │   │   ├── WorkflowNode.tsx     # 自定义节点组件
+│   │   │   ├── NodePanel.tsx        # 可拖拽节点面板
+│   │   │   └── PropertyPanel.tsx    # 属性编辑面板
+│   │   ├── pages/           # 页面
+│   │   │   ├── WorkflowList.tsx     # 工作流列表
+│   │   │   └── Editor.tsx           # 三栏编辑器
+│   │   ├── stores/          # Zustand 状态管理
+│   │   ├── types/           # TypeScript 类型定义
+│   │   └── utils/           # API 客户端
+│   ├── package.json          # 前端依赖配置
+│   ├── vite.config.ts        # Vite 构建配置
+│   ├── tsconfig.json         # TypeScript 配置
+│   ├── README.md             # 前端文档
+│   └── ...
+├── docs/                      # 项目文档
+├── scripts/                   # 部署运维脚本
+├── docker-compose.yml         # Docker Compose 配置
+├── LICENSE                    # MIT 许可证
+├── README.md                  # 本文件
+└── README.en.md               # 英文文档
+```
+
+**核心目录说明：**
+- `server/src/api/`: API 接口层，仅负责参数接收、鉴权、转发调用、标准化返回
+- `server/src/services/`: 业务逻辑层，处理业务规则、事务编排、多仓储联动
+- `server/src/repositories/`: 数据访问层，封装业务 CRUD、多表联查、分页、条件查询
+- `server/src/models/`: ORM 实体层，纯数据表映射模型
+- `server/src/infras/`: 基础设施层，封装第三方中间件、客户端、连接生命周期
+- `server/src/workflow/`: 工作流引擎核心，包含 DAG 引擎、执行器和节点实现
+- `web/src/components/`: 前端 UI 组件，包含画布、节点、属性面板等
+- `web/src/stores/`: Zustand 状态管理，管理应用状态
 
 ## 系统架构
 
@@ -96,7 +432,7 @@ graph TB
     class 存储层 storage
 ```
 
-### 核心功能业务流程
+### 核心业务流程
 
 ```mermaid
 sequenceDiagram
@@ -185,359 +521,264 @@ graph LR
     class FastAPI,Uvicorn,React,Vite infra
 ```
 
-## 项目结构
+## 技术栈
 
-```
-x-JingWei/
-├── server/                    # 后端服务
-│   ├── src/
-│   │   ├── api/              # API 接口层（极薄，仅参数转发）
-│   │   │   └── v1/
-│   │   │       ├── workflow.py    # 工作流 CRUD & 执行 API
-│   │   │       ├── llm.py         # LLM 聊天接口
-│   │   │       ├── document.py    # 文档处理接口
-│   │   │       ├── health.py      # 健康检查
-│   │   │       └── version.py     # 版本信息
-│   │   ├── core/             # 核心支撑层
-│   │   │   ├── config.py     # 全局配置中心
-│   │   │   ├── container.py  # IOC依赖注入容器
-│   │   │   ├── middleware.py # 中间件
-│   │   │   ├── exceptions.py # 全局异常定义
-│   │   │   ├── logger.py     # 日志配置
-│   │   │   └── response.py   # 统一响应封装
-│   │   ├── services/         # 业务逻辑层
-│   │   │   ├── llm_service.py      # LLM 业务服务
-│   │   │   ├── document_service.py # 文档业务服务
-│   │   │   └── workflow_service.py # 工作流业务服务
-│   │   ├── repositories/     # 数据访问层
-│   │   │   ├── base.py           # Repository 基类
-│   │   │   ├── workflow_repository.py
-│   │   │   └── document_repository.py
-│   │   ├── models/           # ORM 实体层（数据表映射）
-│   │   │   ├── base.py           # SQLAlchemy 基类
-│   │   │   └── workflow.py       # 工作流实体模型
-│   │   ├── schemas/          # API Schema（Pydantic 请求/响应模型）
-│   │   │   ├── base.py           # Schema 基类
-│   │   │   ├── common.py         # 通用参数（分页等）
-│   │   │   ├── workflow.py       # 工作流相关 Schema
-│   │   │   ├── llm.py            # LLM 相关 Schema
-│   │   │   └── document.py       # 文档相关 Schema
-│   │   ├── infras/          # 基础设施层（第三方中间件封装）
-│   │   │   └── mysql/
-│   │   │       ├── __init__.py   # 导出数据库连接管理模块
-│   │   │       └── mysql.py      # 数据库连接管理
-│   │   ├── workflow/         # 工作流引擎核心
-│   │   │   ├── engine.py     # DAG执行引擎(拓扑排序/并行/验证)
-│   │   │   ├── executor.py   # 工作流执行器
-│   │   │   └── nodes.py      # 10+ 种节点类型实现
-│   │   ├── utils/            # 无状态工具函数
-│   │   ├── constants/        # 全局常量定义
-│   │   └── main.py           # 应用入口
-│   ├── tests/                # 自动化测试（目录层级与 src 对应）
-│   ├── logs/                 # 运行时日志（按小时切割）
-│   ├── examples/             # 功能演示示例
-│   ├── scripts/              # 部署运维脚本
-│   ├── .env                  # 本地私有配置（禁止提交）
-│   ├── .env.example          # 无密钥配置模板（允许提交）
-│   ├── config.yaml           # YAML 配置文件
-│   ├── README.md             # 后端文档
-│   └── ...
-├── web/                       # 前端应用
-│   ├── src/
-│   │   ├── components/       # 组件
-│   │   │   ├── WorkflowCanvas.tsx   # 画布组件(React Flow)
-│   │   │   ├── WorkflowNode.tsx     # 自定义节点组件
-│   │   │   ├── NodePanel.tsx        # 可拖拽节点面板
-│   │   │   └── PropertyPanel.tsx    # 属性编辑面板
-│   │   ├── pages/           # 页面
-│   │   │   ├── WorkflowList.tsx     # 工作流列表
-│   │   │   └── Editor.tsx           # 三栏编辑器
-│   │   ├── stores/          # Zustand 状态管理
-│   │   ├── types/           # TypeScript 类型定义
-│   │   └── utils/           # API 客户端
-│   ├── README.md             # 前端文档
-│   └── ...
-└── README.md                 # 本文件
-```
+### 开发语言
+- **Python 3.11+**: 后端主要开发语言
+- **TypeScript 5+**: 前端主要开发语言
+- **JavaScript**: 前端辅助语言
+- **SQL**: 数据库查询语言
 
-## 架构分层
+### Web 框架
+- **FastAPI**: 高性能异步 Web 框架，支持 OpenAPI 自动生成
+- **Uvicorn**: ASGI 服务器，支持热重载
+- **React 18**: 前端 UI 框架，支持并发模式
+- **Vite 5**: 前端构建工具，支持快速热重载
 
-后端采用标准五层业务架构 + 通用核心支撑层：
+### 数据存储
+- **MySQL 8.0+**: 关系型数据库，存储工作流数据
+- **SQLAlchemy 2.0**: Python ORM 框架，支持异步操作
+- **aiomysql**: 异步 MySQL 驱动
 
-### 标准五层业务架构（自上而下）
+### 缓存 (可选)
+- **Redis**: 内存数据库，用于缓存和会话存储
+- **aioredis**: 异步 Redis 客户端
 
-| 层级 | 目录 | 职责 |
-|------|------|------|
-| **API 接口层** | `api/` | 仅负责参数接收、鉴权、转发调用、标准化返回，无业务逻辑 |
-| **业务逻辑层** | `services/` | 处理业务规则、事务编排、多仓储联动、复杂业务计算 |
-| **数据访问层** | `repositories/` | 封装业务 CRUD、多表联查、分页、条件查询 |
-| **ORM 实体层** | `models/` | 纯数据表映射模型，仅定义字段、表关联关系 |
-| **基础设施层** | `infras/` | 封装第三方中间件、客户端、连接生命周期、底层资源管理 |
+### 消息队列 (可选)
+- **RabbitMQ**: 消息队列，用于异步任务处理
+- **Celery**: 分布式任务队列
 
-### 核心支撑层
+### 核心工具库
+- **Pydantic v2**: 数据验证和序列化
+- **Loguru**: 结构化日志记录
+- **python-dotenv**: 环境变量管理
+- **SlowAPI**: API 限流中间件
+- **httpx**: 异步 HTTP 客户端
 
-| 目录 | 职责 |
-|------|------|
-| `core/` | 框架级底层核心能力（配置、日志、异常、中间件、IOC容器、标准化响应） |
-| `schemas/` | 统一存放接口请求入参、响应返回 Pydantic 模型 |
-| `constants/` | 全局常量、业务模块常量、状态枚举定义 |
-| `utils/` | 无状态纯工具函数（加密、日期、文件、序列化、脱敏工具） |
-| `common/` | 业务通用公共组件（业务基类、通用装饰器、全局枚举、分页封装） |
+### 前端核心库
+- **React Flow 11**: 节点编辑器库
+- **Ant Design 5**: UI 组件库
+- **Zustand**: 状态管理库
+- **Axios**: HTTP 客户端
+- **React Router 6**: 前端路由
 
-### 层间依赖规则
+### 部署运维工具
+- **Docker**: 容器化部署
+- **Docker Compose**: 多容器编排
+- **uv**: 现代化 Python 包管理器
+- **pytest**: Python 测试框架
+- **black/ruff**: 代码格式化和检查工具
 
-```
-api → service → repository → models/infras
-          ↓
-       utils/schemas/constants/common/core
-```
+## API 文档说明
 
-- 依赖流向不可逆、禁止跨层直接调用
-- `repository` 引用 `models` 实体
-- `repository` 依赖 `infras` 获取数据库/缓存会话资源
-- `models`、`infras` 不依赖上层任何业务层代码
+### 交互式文档访问
 
-## 快速开始
+项目自动生成 OpenAPI 规范，提供以下文档访问方式：
 
-### 0. 数据库配置
+1. **Swagger UI (交互式文档)**
+   - 访问地址: http://localhost:8000/docs
+   - 功能: 在线测试 API 接口、查看请求/响应示例
 
-确保 MySQL 服务已启动，并创建数据库：
+2. **ReDoc (只读文档)**
+   - 访问地址: http://localhost:8000/redoc
+   - 功能: 美观的 API 文档展示，适合阅读
 
-```sql
-CREATE DATABASE jingwei CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
+3. **OpenAPI JSON 规范**
+   - 访问地址: http://localhost:8000/openapi.json
+   - 功能: 标准 OpenAPI 3.0 规范文件，可用于代码生成
 
-配置数据库连接（通过环境变量或 .env 文件）：
+### 核心 API 接口清单
 
-```bash
-# 环境变量
-export MYSQL_URL="mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
-export MYSQL_ASYNC_URL="mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
-```
-
-或创建 `.env` 文件在 `server/src/config/` 目录：
-
-```env
-MYSQL_URL=mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
-MYSQL_ASYNC_URL=mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4
-```
-
-### 1. 启动后端服务
-
-```bash
-cd server
-
-# 安装依赖
-uv sync
-
-# 启动服务（热重载，推荐）
-uv run x-JingWei --reload
-
-# 生产环境
-uv run x-JingWei --host 0.0.0.0 --port 8000
-
-# 查看帮助
-uv run x-JingWei --help
-```
-
-### 2. 启动前端应用
-
-```bash
-cd web
-
-# 安装依赖
-npm install
-
-# 启动开发服务器
-npm run dev
-```
-
-### 3. 访问应用
-
-- 前端: http://localhost:3000（若被占用会自动分配其他端口）
-- 后端 API: http://localhost:8000
-- API 文档: http://localhost:8000/docs
-
-## 功能特性
-
-### 工作流引擎
-
-- ✅ **拓扑排序**：基于 Kahn 算法的 DAG 拓扑排序
-- ✅ **并行执行**：支持同层级节点并行执行
-- ✅ **循环依赖检测**：自动检测并报告循环依赖
-- ✅ **执行计划**：生成可视化的执行计划
-- ✅ **关键路径分析**：识别工作流的关键路径
-
-### 节点类型
-
-- ✅ **开始/结束**：控制工作流的起点和终点
-- ✅ **LLM**：调用大语言模型
-- ✅ **代码**：执行 Python 代码
-- ✅ **条件**：条件分支判断
-- ✅ **HTTP**：发送 HTTP 请求
-- ✅ **转换**：数据转换处理
-- ✅ **并行/聚合**：支持并行分支和结果聚合
-- ✅ **文档**：文档处理（解析、分块、摘要）
-
-### 前端编辑器
-
-- ✅ **拖拽创建**：从节点面板拖拽创建节点
-- ✅ **连线编辑**：连接节点配置数据流
-- ✅ **属性配置**：编辑节点配置参数
-- ✅ **导入/导出**：支持 JSON 格式的导入导出
-- ✅ **执行调试**：实时执行并查看结果
-
-## API 接口
-
-### 工作流管理
-
+#### 工作流管理
 - `POST /api/v1/workflows` - 创建工作流
 - `GET /api/v1/workflows` - 获取工作流列表
 - `GET /api/v1/workflows/{id}` - 获取工作流详情
 - `PUT /api/v1/workflows/{id}` - 更新工作流
 - `DELETE /api/v1/workflows/{id}` - 删除工作流
 
-### 工作流执行
-
+#### 工作流执行
 - `POST /api/v1/workflows/{id}/execute` - 执行工作流
 - `POST /api/v1/workflows/{id}/validate` - 验证工作流
 - `GET /api/v1/workflows/{id}/execution-plan` - 获取执行计划
 
-### 节点类型
-
+#### 节点类型
 - `GET /api/v1/workflows/node-types/list` - 获取节点类型列表
 - `GET /api/v1/workflows/node-types/{type}` - 获取节点类型详情
 
-### 执行记录
-
+#### 执行记录
 - `GET /api/v1/workflows/executions/list` - 获取执行记录列表
 - `GET /api/v1/workflows/executions/{execution_id}` - 获取执行记录详情
 
-## 示例工作流
+#### LLM 接口
+- `POST /api/v1/llm/chat` - LLM 聊天完成
+- `GET /api/v1/llm/providers` - 获取提供商列表
 
-创建一个简单的 LLM 对话工作流：
+#### 文档接口
+- `POST /api/v1/document/upload` - 上传文档
+- `GET /api/v1/document/` - 获取文档列表
+- `GET /api/v1/document/{document_id}` - 获取文档详情
+- `DELETE /api/v1/document/{document_id}` - 删除文档
 
-```json
-{
-  "name": "简单对话",
-  "description": "使用 LLM 进行对话",
-  "nodes": [
-    {
-      "id": "start_1",
-      "type": "start",
-      "position": { "x": 100, "y": 200 },
-      "data": { "label": "开始", "config": {} }
-    },
-    {
-      "id": "llm_1",
-      "type": "llm",
-      "position": { "x": 300, "y": 200 },
-      "data": {
-        "label": "LLM",
-        "config": {
-          "prompt": "{{input}}",
-          "model": "deepseek-chat"
-        }
-      }
-    },
-    {
-      "id": "end_1",
-      "type": "end",
-      "position": { "x": 500, "y": 200 },
-      "data": { "label": "结束", "config": {} }
-    }
-  ],
-  "edges": [
-    { "id": "edge_1", "source": "start_1", "target": "llm_1" },
-    { "id": "edge_2", "source": "llm_1", "target": "end_1" }
-  ]
-}
+#### 系统接口
+- `GET /api/v1/health` - 健康检查
+- `GET /api/v1/version` - 版本信息
+
+### 权限控制说明
+
+- **公开接口**: 健康检查、版本信息、API 文档
+- **认证接口**: 工作流管理、执行记录等需要 API 密钥认证
+- **限流控制**: 默认 60 请求/分钟，1000 请求/小时
+- **CORS 配置**: 默认允许所有来源，生产环境建议配置具体域名
+
+## 存储配置说明
+
+### 数据库存储
+
+#### MySQL 配置
+项目使用 MySQL 作为主要数据存储，配置参数如下：
+
+```yaml
+# config.yaml 示例
+database:
+  enabled: true
+  url: "mysql+pymysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+  url_async: "mysql+aiomysql://root:123456@localhost:3306/jingwei?charset=utf8mb4"
+  pool_size: 10
+  max_overflow: 20
+  pool_timeout: 30
+  pool_recycle: 3600
+  echo: false
 ```
 
-## 技术栈
+**配置参数说明：**
+- `url`: 同步数据库连接字符串
+- `url_async`: 异步数据库连接字符串
+- `pool_size`: 连接池大小
+- `max_overflow`: 最大溢出连接数
+- `pool_timeout`: 连接超时时间（秒）
+- `pool_recycle`: 连接回收时间（秒）
+- `echo`: 是否打印 SQL 语句
 
-### 后端
+#### 数据库表结构
 
-- **FastAPI**：高性能异步 Web 框架
-- **Pydantic**：数据验证和序列化
-- **SQLAlchemy**：ORM 数据库访问
-- **aiomysql**：异步 MySQL 驱动
-- **UV**：现代化 Python 包管理
+```sql
+-- 工作流主表
+CREATE TABLE workflows (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    status ENUM('draft', 'active', 'disabled') DEFAULT 'draft',
+    description TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
 
-### 前端
+-- 节点表
+CREATE TABLE workflow_nodes (
+    id VARCHAR(36) PRIMARY KEY,
+    workflow_id VARCHAR(36) NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    data JSON,
+    position_x INT,
+    position_y INT,
+    FOREIGN KEY (workflow_id) REFERENCES workflows(id) ON DELETE CASCADE
+);
 
-- **React 18**：UI 框架
-- **TypeScript**：类型安全
-- **React Flow**：节点编辑器
-- **Ant Design**：UI 组件库
-- **Zustand**：状态管理
-- **Axios**：HTTP 客户端
+-- 边表
+CREATE TABLE workflow_edges (
+    id VARCHAR(36) PRIMARY KEY,
+    workflow_id VARCHAR(36) NOT NULL,
+    source VARCHAR(36) NOT NULL,
+    target VARCHAR(36) NOT NULL,
+    source_handle VARCHAR(255),
+    target_handle VARCHAR(255),
+    FOREIGN KEY (workflow_id) REFERENCES workflows(id) ON DELETE CASCADE
+);
 
-## 数据库设计
-
-系统使用 MySQL 数据库存储工作流数据，主要包含以下表：
-
-### ER 图
-
-```mermaid
-erDiagram
-    WORKFLOWS ||--o{ WORKFLOW_NODES : contains
-    WORKFLOWS ||--o{ WORKFLOW_EDGES : contains
-    WORKFLOWS ||--o{ WORKFLOW_EXECUTIONS : has
-
-    WORKFLOWS {
-        string id PK "工作流ID"
-        string name "名称"
-        enum status "状态(draft/active/disabled)"
-        text description "描述"
-        datetime created_at "创建时间"
-        datetime updated_at "更新时间"
-    }
-
-    WORKFLOW_NODES {
-        string id PK "节点ID"
-        string workflow_id FK "工作流ID"
-        enum type "节点类型"
-        json data "节点配置数据"
-        int position_x "X坐标"
-        int position_y "Y坐标"
-    }
-
-    WORKFLOW_EDGES {
-        string id PK "边ID"
-        string workflow_id FK "工作流ID"
-        string source "源节点ID"
-        string target "目标节点ID"
-        string source_handle "源Handle"
-        string target_handle "目标Handle"
-    }
-
-    WORKFLOW_EXECUTIONS {
-        string id PK "执行ID"
-        string workflow_id FK "工作流ID"
-        enum status "执行状态"
-        json inputs "输入参数"
-        json outputs "输出结果"
-        json node_results "节点执行结果"
-        text error "错误信息"
-        datetime start_time "开始时间"
-        datetime end_time "结束时间"
-        int duration_ms "执行时长(ms)"
-    }
+-- 执行记录表
+CREATE TABLE workflow_executions (
+    id VARCHAR(36) PRIMARY KEY,
+    workflow_id VARCHAR(36) NOT NULL,
+    status ENUM('pending', 'running', 'completed', 'failed') DEFAULT 'pending',
+    inputs JSON,
+    outputs JSON,
+    node_results JSON,
+    error TEXT,
+    start_time DATETIME,
+    end_time DATETIME,
+    duration_ms INT,
+    FOREIGN KEY (workflow_id) REFERENCES workflows(id) ON DELETE CASCADE
+);
 ```
 
-### 数据模型
+### 缓存存储 (可选)
 
-- **Workflow**：工作流主表，存储工作流的基本信息
-- **WorkflowNode**：节点表，存储工作流中的所有节点
-- **WorkflowEdge**：边表，存储节点之间的连接关系
-- **WorkflowExecution**：执行记录表，存储每次执行的详细信息
+#### Redis 配置
+```yaml
+# config.yaml 示例
+redis:
+  enabled: false
+  url: "redis://localhost:6379/0"
+  pool_size: 10
+  max_connections: 50
+  decode_responses: true
+  socket_timeout: 5
+```
 
+**使用场景：**
+- 会话缓存
+- API 限流计数
+- 临时数据存储
 
-## License
+### 文件存储
+
+项目支持本地文件存储，用于文档上传和处理：
+
+- **上传目录**: `server/uploads/`
+- **临时目录**: `server/temp/`
+- **日志目录**: `server/logs/`
+
+**注意事项：**
+- 上传文件大小限制：10MB
+- 支持文件类型：PDF、TXT、DOCX、MD
+- 文件存储路径可在配置文件中修改
+
+## 许可证
 
 本项目基于 [MIT License](LICENSE) 开源。
 
+MIT 许可证是一种宽松的许可证，允许用户自由使用、修改、分发软件，包括商业用途，只需保留版权声明和许可证声明。
+
+## 参考资料
+
+### 核心依赖官方文档
+
+#### Python 生态
+- [Python 官方文档](https://docs.python.org/3/)
+- [uv 包管理器](https://github.com/astral-sh/uv)
+- [FastAPI 官方文档](https://fastapi.tiangolo.com/)
+- [Pydantic 官方文档](https://docs.pydantic.dev/)
+- [SQLAlchemy 官方文档](https://docs.sqlalchemy.org/)
+- [Loguru 官方文档](https://loguru.readthedocs.io/)
+- [pytest 官方文档](https://docs.pytest.org/)
+
+#### 前端生态
+- [React 官方文档](https://react.dev/)
+- [TypeScript 官方文档](https://www.typescriptlang.org/)
+- [Vite 官方文档](https://vitejs.dev/)
+- [React Flow 官方文档](https://reactflow.dev/)
+- [Ant Design 官方文档](https://ant.design/)
+- [Zustand 官方文档](https://github.com/pmndrs/zustand)
+
+#### 部署运维
+- [Docker 官方文档](https://docs.docker.com/)
+- [Docker Compose 官方文档](https://docs.docker.com/compose/)
+- [MySQL 官方文档](https://dev.mysql.com/doc/)
+- [Redis 官方文档](https://redis.io/documentation)
+
+#### 代码质量
+- [Black 代码格式化](https://black.readthedocs.io/)
+- [Ruff 代码检查](https://docs.astral.sh/ruff/)
+- [mypy 类型检查](https://mypy-lang.org/)
 
 ## 联系方式
 
